@@ -7,28 +7,6 @@ open Xunit.Extensions
 type ParserTests() = 
 
     [<Theory>]
-    [<InlineData(' ')>]
-    [<InlineData('\t')>]
-    [<InlineData('\n')>]
-    member this.isWordSeparatorOnSeparatorCharacterReturnsTrue(c) =
-        Assert.True(isWordSeparator c)
-
-    [<Theory>]
-    [<InlineData('<')>]
-    [<InlineData('>')>]
-    [<InlineData('/')>]
-    [<InlineData('\\')>]
-    [<InlineData('a')>]
-    [<InlineData('1')>]
-    [<InlineData(';')>]
-    [<InlineData(',')>]
-    [<InlineData('.')>]
-    [<InlineData('!')>]
-    [<InlineData('?')>]
-    member this.isWordSeparatorOnNonSeparatorCharacterReturnsFalse(c) =
-        Assert.False(isWordSeparator c)
-
-    [<Theory>]
     [<InlineData("hello;")>]
     [<InlineData("hello,")>]
     [<InlineData("hello.")>]
@@ -38,25 +16,13 @@ type ParserTests() =
         let convertedWord = convertPunctuationCharactersToWords wordsString        
         Assert.Equal<string>("hello " + wordsString.Substring(5) + " ", convertedWord)
 
-    [<Fact>]
-    member this.splitOnWithNoMatchForPassedFuncReturnsStringArgumentInList() =
-        let words = splitOn (fun c -> c = ' ') "hello" System.StringSplitOptions.RemoveEmptyEntries
-        Assert.True(["hello"] = words)
-
-    [<Fact>]
-    member this.splitOnWithMatchesForPassedFuncReturnsListWithStringArgumentSplitUsingFunc() =
-        let words = splitOn (fun c -> c = ' ') "hello there world " System.StringSplitOptions.RemoveEmptyEntries
-        Assert.True(["hello"; "there"; "world"] = words)
-
-    [<Fact>]
-    member this.splitOnWithStringSplitOptionsIsNoneReturnsEmptyEntries() =
-        let words = splitOn (fun c -> c = ' ') "hello " System.StringSplitOptions.None
-        Assert.True(["hello"; ""] = words)
-
-    [<Fact>]
-    member this.splitOnWithStringSplitOptionsIsRemoveEmptyEntriesDoesNotReturnEmptyEntries() =
-        let words = splitOn (fun c -> c = ' ') "hello " System.StringSplitOptions.RemoveEmptyEntries
-        Assert.True(["hello"] = words)
+    [<Theory>]
+    [<InlineData("hello world")>]
+    [<InlineData("hello\tworld")>]
+    [<InlineData("hello\nworld")>]
+    member this.splitWordReturnsWordSplitBySeparator(wordsString) =
+        let words = splitWord wordsString        
+        Assert.True(["hello"; "world"] = words)
 
     [<Theory>]
     [<InlineData("")>]
@@ -81,11 +47,16 @@ type ParserTests() =
         let words = splitWords wordsString
         Assert.True(["hello"; "there"; "world"] = words)
 
+    [<Fact>]
+    member this.splitWordsDoesNotReturnEmptyWords() =
+        let words = splitWords " hello\t there world  "        
+        Assert.True(["hello"; "there"; "world"] = words)
+
     [<Fact>]  
     member this.sanitizeWordReturnsLowerCaseString() =
         Assert.Equal<string>("hello there world", (sanitizeWord "HELLO THERE woRLD"))
 
     [<Fact>]
     member this.parseReturnsInputSplitIntoWordsAndSanitized() =
-        let parsedWords = parse " HELLO!THERE;   woRLD "
-        Assert.True(["hello"; "!"; "there"; ";"; "world"] = parsedWords)
+        let parsedWords = parse " HELLO!THERE;   woRLD? "
+        Assert.True(["hello"; "!"; "there"; ";"; "world"; "?"] = parsedWords)
