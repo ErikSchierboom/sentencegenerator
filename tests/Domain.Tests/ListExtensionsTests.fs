@@ -36,6 +36,11 @@ type ListExtensionsTests() =
         Assert.Throws<InvalidOperationException>(fun() -> List.slice 1 4 ["hello"; "there"; "world"; "!"] |> ignore)
 
     [<Fact>]
-    member this.partitionBlockReturnsCorrectPartionBlock() =        
+    member this.partitionBlockWithBlockSizeIsOneReturnsCorrectPartionedBlocks() =        
+        let partitionBlock = List.partitionBlock 1 ["hello"; "there"; "world"; "!"]
+        Assert.True([["hello"]; ["there"]; ["world"]; ["!"]] = partitionBlock)
+
+    [<Fact>]
+    member this.partitionBlockWithBlockSizeGreaterThanOneReturnsCorrectPartionedBlocks() =        
         let partitionBlock = List.partitionBlock 3 ["hello"; "there"; "world"; "!"]
         Assert.True([["hello"; "there"; "world"]; ["there"; "world"; "!"]] = partitionBlock)

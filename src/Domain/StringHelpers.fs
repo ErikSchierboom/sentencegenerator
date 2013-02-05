@@ -2,16 +2,16 @@
 
 open System
 
-let convertPunctuationCharactersToWords (x:string) =
-    x.Replace(";", " ; ").Replace(",", " , ").Replace(".", " . ").Replace("!", " ! ").Replace("?", " ? ")
+let convertPunctuationCharactersToWords (word:string) =
+    word.Replace(";", " ; ").Replace(",", " , ").Replace(".", " . ").Replace("!", " ! ").Replace("?", " ? ")
             
-let splitWord (x:string) = 
-    let convertedWord = convertPunctuationCharactersToWords x
+let splitWord (word:string) = 
+    let convertedWord = convertPunctuationCharactersToWords word
     Seq.toList (convertedWord.Split(' ', '\t', '\n'))
             
-let splitWords (x:string) =
-    splitWord (convertPunctuationCharactersToWords x)
+let splitWords (word:string) =
+    splitWord (convertPunctuationCharactersToWords word)
     |> List.filter (fun w -> not (String.IsNullOrWhiteSpace(w)))
 
-let sanitizeWord (x:string) = 
-    x.ToLowerInvariant()
+let sanitizeWord (word:string) = 
+    word.ToLowerInvariant()

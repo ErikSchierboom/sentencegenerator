@@ -12,6 +12,3 @@ let rec partitionBlock blockSize list =
     match List.length list with
     | y when y < blockSize -> []
     | y -> slice 0 blockSize list :: partitionBlock blockSize (List.tail list)
-    
-
-

@@ -3,5 +3,5 @@
 open System
 open Domain.StringHelpers
 
-let parse (x:string) =
-    List.map sanitizeWord (splitWords x)
+let parse (word:string) =
+    List.map sanitizeWord (splitWords word)

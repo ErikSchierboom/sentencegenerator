@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="StringHelpers.fs" />
     <Compile Include="ListExtensions.fs" />
+    <Compile Include="MarkovChain.fs" />
     <Compile Include="Parser.fs" />
     <Compile Include="SentenceGenerator.fs" />
   </ItemGroup>
