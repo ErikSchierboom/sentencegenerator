@@ -49,8 +49,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ParserTests.fs" />
     <None Include="packages.config" />
+    <Compile Include="StringHelpersTests.fs" />
+    <Compile Include="ListExtensionsTests.fs" />
+    <Compile Include="ParserTests.fs" />
+    <Compile Include="SentenceGeneratorTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Domain\Domain.fsproj">
