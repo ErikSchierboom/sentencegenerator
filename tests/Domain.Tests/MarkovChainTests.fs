@@ -8,22 +8,22 @@ open Xunit.Extensions
 type MarkovChainTests() = 
 
     [<Fact>]
-    member this.groupListForChainOfLengthTwoCorrectlyGroupsList() =        
-        let groupedList = groupListForChain ["hello"; "there"]
+    member this.createChainLinkOfLengthTwoCorrectlyGroupsList() =        
+        let groupedList = createChainLink ["hello"; "there"]
         Assert.True((["hello"], "there") = groupedList)
 
     [<Fact>]
-    member this.groupListForChainOfLengthGreaterThanTwoCorrectlyGroupsList() =        
-        let groupedList = groupListForChain ["hello"; "there"; "world"]
+    member this.createChainLinkOfLengthGreaterThanTwoCorrectlyGroupsList() =        
+        let groupedList = createChainLink ["hello"; "there"; "world"]
         Assert.True((["hello"; "there"], "world") = groupedList)
 
     [<Fact>]
-    member this.groupListForChainCorrectlyGroupsListWithEmptyListThrowsArgumentException() =  
-        Assert.Throws<ArgumentException>(fun() -> groupListForChain [] |> ignore)
+    member this.createChainLinkCorrectlyGroupsListWithEmptyListThrowsException() =  
+        Assert.Throws<Exception>(fun() -> createChainLink [] |> ignore)
 
     [<Fact>]
-    member this.groupListForChainCorrectlyGroupsListWithListWithOneItemThrowsArgumentException() =  
-        Assert.Throws<ArgumentException>(fun() -> groupListForChain ["hello"] |> ignore)
+    member this.createChainLinkCorrectlyGroupsListWithListWithOneItemThrowsException() =  
+        Assert.Throws<Exception>(fun() -> createChainLink ["hello"] |> ignore)
 
     [<Fact>]
     member this.groupListsForChainCorrectlyGroupsLists() =        

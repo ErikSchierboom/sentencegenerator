@@ -5,7 +5,7 @@ open System
 module SentenceGenerator =
 
     let partitionBlock blockSize list =
-        if blockSize < 1 then raise (ArgumentException("The blockSize parameter must be greater than zero.", "blockSize"))
+        if blockSize < 1 then failwith "The blockSize parameter must be greater than zero."
 
         match list with
         | []     -> []
