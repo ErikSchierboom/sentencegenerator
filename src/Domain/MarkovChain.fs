@@ -24,7 +24,7 @@ let groupListWithCount list =
 let addCountToGroupedList groupedList =    
     groupedList
     |> Seq.groupBy fst
-    |> Seq.map (fun (key, values) -> (key, groupListWithCount values))
+    |> Seq.map (fun (key, values) -> (key, groupListWithCount (List.tail (List.ofSeq values))))
     |> List.ofSeq
 
 let createMarkovChain chainSize list =

@@ -41,7 +41,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StringHelpers.fs" />
+    <Compile Include="Words.fs" />
     <Compile Include="ListExtensions.fs" />
     <Compile Include="MarkovChain.fs" />
     <Compile Include="Parser.fs" />
