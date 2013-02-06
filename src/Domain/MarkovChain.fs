@@ -13,6 +13,19 @@ let groupListForChain list =
 let groupListsForChain chainSize list =    
     List.partitionBlock chainSize list
     |> List.map groupListForChain
-
-let createMarkovChain list =
+            
+let groupListWithCount list =    
     list
+    |> Seq.map (fun value -> (value, value))
+    |> Seq.groupBy fst
+    |> Seq.map (fun (key, values) -> (key, Seq.length values))
+    |> List.ofSeq
+            
+let addCountToGroupedList groupedList =    
+    groupedList
+    |> Seq.groupBy fst
+    |> Seq.map (fun (key, values) -> (key, groupListWithCount values))
+    |> List.ofSeq
+
+let createMarkovChain chainSize list =
+    []
