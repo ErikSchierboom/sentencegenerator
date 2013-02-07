@@ -2,6 +2,8 @@
 
 open System
 
+let random = new Random()
+
 let rec last = function    
     | x :: [] -> x
     | x :: xs -> last xs    
@@ -10,6 +12,13 @@ let rec last = function
 let take length list =    
     if length < 1 then failwith "The length parameter must be greater than zero."
     list |> Seq.take length |> List.ofSeq
+
+let takeRandom list =
+    match list with
+    | x -> 
+        let index = random.Next(List.length list)
+        list.Item index
+    | _ -> failwith "Cannot call List.takeRandom on empty list."
 
 let rec partitionByLength length list =
     if length < 1 then failwith "The length parameter must be greater than zero."

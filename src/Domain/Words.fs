@@ -2,6 +2,11 @@
 
 open System
 
+let isPunctuationWord (c:string) =
+    match c with
+    | ";" | "," | "." | "!" | "?" -> true
+    | _ -> false
+
 let markPunctuationCharactersAsWords (word:string) =
     word.Replace(";", " ; ")
         .Replace(",", " , ")

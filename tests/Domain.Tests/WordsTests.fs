@@ -7,6 +7,32 @@ open Xunit.Extensions
 type WordsTests() = 
 
     [<Theory>]
+    [<InlineData(";")>]
+    [<InlineData(",")>]
+    [<InlineData(".")>]
+    [<InlineData("!")>]
+    [<InlineData("?")>]
+    member this.isPunctuationWordOnPunctuationCharacterReturnsTrue(word) =         
+        Assert.True(isPunctuationWord word)
+
+    [<Theory>]
+    [<InlineData(" ")>]
+    [<InlineData("\t")>]
+    [<InlineData("\n")>]
+    [<InlineData("a")>]
+    [<InlineData("9")>]
+    [<InlineData("-")>]
+    [<InlineData("_")>]
+    [<InlineData("/")>]
+    [<InlineData("\\")>]
+    [<InlineData("+")>]
+    [<InlineData("[")>]
+    [<InlineData("]")>]
+    [<InlineData("|")>]
+    member this.isPunctuationWordOnNonPunctuationCharacterReturnsFalse(word) =         
+        Assert.False(isPunctuationWord word)
+
+    [<Theory>]
     [<InlineData("hello;")>]
     [<InlineData("hello,")>]
     [<InlineData("hello.")>]
