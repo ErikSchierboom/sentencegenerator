@@ -8,42 +8,64 @@ open Xunit.Extensions
 type MarkovChainTests() = 
 
     [<Fact>]
-    member this.createChainLinkOfLengthTwoCorrectlyGroupsList() =        
-        let groupedList = createChainLink ["hello"; "there"]
-        Assert.True((["hello"], "there") = groupedList)
+    member this.createChainLinkOfLengthTwoReturnsCorrectChainLink() =    
+        Assert.True((["hello"], "there") = createChainLink ["hello"; "there"])
 
     [<Fact>]
-    member this.createChainLinkOfLengthGreaterThanTwoCorrectlyGroupsList() =        
-        let groupedList = createChainLink ["hello"; "there"; "world"]
-        Assert.True((["hello"; "there"], "world") = groupedList)
+    member this.createChainLinkOfLengthGreaterThanTwoReturnsCorrectChainLink() =  
+        Assert.True((["hello"; "there"], "world") = createChainLink ["hello"; "there"; "world"])
 
     [<Fact>]
-    member this.createChainLinkCorrectlyGroupsListWithEmptyListThrowsException() =  
+    member this.createChainLinkOnEmptyListThrowsException() =  
         Assert.Throws<Exception>(fun() -> createChainLink [] |> ignore)
 
     [<Fact>]
-    member this.createChainLinkCorrectlyGroupsListWithListWithOneItemThrowsException() =  
+    member this.createChainLinkOnListWithListWithOneItemThrowsException() =  
         Assert.Throws<Exception>(fun() -> createChainLink ["hello"] |> ignore)
 
     [<Fact>]
-    member this.groupListsForChainCorrectlyGroupsLists() =        
-        let groupedLists = groupListsForChain 3 ["hello"; "there"; "world"; "!"]
+    member this.createChainLinksWithChainSizeIsTwoReturnsCorrectChainLinks() =        
+        let groupedLists = createChainLinks 2 ["hello"; "there"; "world"; "!"]
+        Assert.True([["hello"], "there"; ["there"], "world"; ["world"], "!"] = groupedLists)
+
+    [<Fact>]
+    member this.createChainLinksWithChainSizeIsGreaterThatTwoReturnsCorrectChainLinks() =        
+        let groupedLists = createChainLinks 3 ["hello"; "there"; "world"; "!"]
         Assert.True([["hello"; "there"], "world"; ["there"; "world"], "!"] = groupedLists)
 
-    [<Fact>]
-    member this.groupListWithCountCorrectlyGroupsList() =        
-        let groupedListWithCount = groupListWithCount ["hello"; "there"; "hello"]
-        Assert.True(["hello", 2; "there", 1] = groupedListWithCount)
+    [<Theory>]
+    [<InlineData(1)>]
+    [<InlineData(0)>]
+    [<InlineData(-1)>]
+    member this.createChainLinksWithChainSizeIsInvalidThrowsException(chainSize) =  
+        Assert.Throws<Exception>(fun() -> createChainLinks chainSize ["hello"; "there"; "world"; "!"] |> ignore)
 
     [<Fact>]
-    member this.addCountToGroupedListCorrectlyGroupsList() =        
-        let groupedListWithCount = addCountToGroupedList [["hello"], "there"; ["hello"], "there";["hello"], "world"]
-        Assert.False(true)
-        (*Assert.True([["hello"], [("there", 2); ("world", 1)]] = groupedListWithCount)*)
+    member this.groupChainLinksReturnsChainLinksGroupedCorrectly() =        
+        let groupedChainLinks = groupChainLinks [["hello"], "world"; ["there"], "!"; ["hello"], "world";  ["hello"], "there"]
+        Assert.True([["hello"], ["world"; "world"; "there"]; ["there"], ["!"]] = groupedChainLinks)
 
     [<Fact>]
-    member this.createMarkovChainReturnsMarkovChainForInput() =        
+    member this.groupChainLinksOnEmptyListReturnsEmptyList() =  
+        Assert.True([] = groupChainLinks [])
+
+    [<Fact>]
+    member this.createMarkovChainWithChainSizeIsTwoReturnsCorrectMarkovChain() =        
         let markovChain = createMarkovChain 2 ["hello"; "there"; "world"; "hello"; "hello"; "hello"]
         Assert.True([["hello"], [("there", 1); ("hello", 2)]; 
                      ["there"], [("world", 1)];
                      ["world"], [("hello", 1)]] = markovChain)
+
+    [<Fact>]
+    member this.createMarkovChainWithChainSizeIsGreaterThanTwoReturnsCorrectMarkovChain() =        
+        let markovChain = createMarkovChain 3 ["hello"; "there"; "world"; "hello"; "there"; "hello"]
+        Assert.True([["hello"; "there"], [("world", 1); ("hello", 1)]; 
+                     ["there"; "world"], [("hello", 1)];
+                     ["world"; "hello"], [("there", 1)]] = markovChain)
+
+    [<Theory>]
+    [<InlineData(1)>]
+    [<InlineData(0)>]
+    [<InlineData(-1)>]
+    member this.createMarkovChainWithChainSizeIsInvalidThrowsException(chainSize) =  
+        Assert.Throws<Exception>(fun() -> createMarkovChain chainSize ["hello"; "there"; "world"; "!"] |> ignore)

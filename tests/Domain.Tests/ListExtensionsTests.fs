@@ -15,29 +15,27 @@ type ListExtensionsTests() =
         Assert.Throws<Exception>(fun() -> List.last [] |> ignore)
 
     [<Fact>]
-    member this.sliceReturnsListOfSpecifiedSliceLength() =        
-        let slicedList = List.slice 2 ["hello"; "there"; "world"; "!"]
+    member this.takeReturnsListOfSpecifiedSliceLength() =        
+        let slicedList = List.take 2 ["hello"; "there"; "world"; "!"]
         Assert.Equal(2, List.length slicedList)
     
     [<Fact>]
-    member this.sliceReturnsSlicedElementsFromStartOfList() =        
-        Assert.True(["hello"; "there"] = List.slice 2 ["hello"; "there"; "world"; "!"])
+    member this.takeReturnsLengthElementsFromStartOfList() =        
+        Assert.True(["hello"; "there"] = List.take 2 ["hello"; "there"; "world"; "!"])
 
     [<Fact>]
-    member this.sliceWithLengthIsOneReturnsHeadOfList() =
-        Assert.True(["hello"] = List.slice 1 ["hello"; "there"; "world"; "!"])
+    member this.takeWithLengthIsOneReturnsHeadOfList() =
+        Assert.True(["hello"] = List.take 1 ["hello"; "there"; "world"; "!"])
 
     [<Fact>]
-    member this.sliceWithLengthGreaterThanNumberOfElementsReturnsMaximumNumberOfElements() =  
-        Assert.True(["hello"; "there"; "world"; "!"] = List.slice 4 ["hello"; "there"; "world"; "!"])
+    member this.takeWithLengthGreaterThanNumberOfElementsReturnsMaximumNumberOfElements() =  
+        Assert.True(["hello"; "there"; "world"; "!"] = List.take 4 ["hello"; "there"; "world"; "!"])
 
-    [<Fact>]
-    member this.sliceWithLengthLessThanZeroThrowsException() =  
-        Assert.Throws<Exception>(fun() -> List.slice -1 ["hello"; "there"; "world"; "!"] |> ignore)
-
-    [<Fact>]
-    member this.sliceWithLengthEqualToZeroThrowsException() =  
-        Assert.Throws<Exception>(fun() -> List.slice 0 ["hello"; "there"; "world"; "!"] |> ignore)
+    [<Theory>]
+    [<InlineData(0)>]
+    [<InlineData(-1)>]
+    member this.takeWithLengthIsInvalidThrowsException(chainSize) =  
+        Assert.Throws<Exception>(fun() -> List.take chainSize ["hello"; "there"; "world"; "!"] |> ignore)
 
     [<Fact>]
     member this.partitionByLengthWithLengthIsOneReturnsCorrectPartionedBlocks() =        
