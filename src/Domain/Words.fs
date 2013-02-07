@@ -16,4 +16,8 @@ let splitWord (word:string) =
     Seq.toList (word.Split(' ', '\t', '\n'))
             
 let splitWords (word:string) =
-    sanitizeWord word |> splitWord |> List.filter (fun w -> not (String.IsNullOrWhiteSpace(w)))
+    sanitizeWord word 
+    |> splitWord 
+    |> List.map (fun w -> w.Trim())
+    |> List.filter (fun w -> not (String.IsNullOrWhiteSpace(w)))
+    

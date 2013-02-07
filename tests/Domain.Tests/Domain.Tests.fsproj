@@ -57,6 +57,7 @@
     <Compile Include="MarkovChainTests.fs" />
     <Compile Include="ParserTests.fs" />
     <Compile Include="SentenceGeneratorTests.fs" />
+    <Compile Include="TextGeneratorTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Domain\Domain.fsproj">

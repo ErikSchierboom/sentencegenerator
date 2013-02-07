@@ -1,0 +1,1 @@
+﻿module Domain.TextGenerator

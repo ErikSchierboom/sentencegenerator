@@ -46,6 +46,7 @@
     <Compile Include="MarkovChain.fs" />
     <Compile Include="Parser.fs" />
     <Compile Include="SentenceGenerator.fs" />
+    <Compile Include="TextGenerator.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

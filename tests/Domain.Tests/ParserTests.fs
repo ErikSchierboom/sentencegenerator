@@ -7,6 +7,6 @@ open Xunit.Extensions
 type ParserTests() =     
 
     [<Fact>]
-    member this.parseReturnsInputSplitIntoWordsAndSanitized() =
+    member this.parseReturnsTextSplitIntoWordsAndSanitized() =
         let parsedWords = parse " HELLO!THERE;   woRLD? "
         Assert.True(["hello"; "!"; "there"; ";"; "world"; "?"] = parsedWords)
