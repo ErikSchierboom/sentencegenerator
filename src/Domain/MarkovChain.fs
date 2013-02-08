@@ -1,6 +1,8 @@
 ﻿module Domain.MarkovChain
 
 open System
+
+let random = new Random()
             
 let createChainLink list =    
     match List.length list with
@@ -11,11 +13,16 @@ let createChainLinks chainSize list =
     List.partitionByLength chainSize list
     |> List.map createChainLink
             
-let groupChainLinks list =    
-    list
+let groupChainLinks chainLinks =    
+    chainLinks
     |> Seq.groupBy fst
     |> Seq.map (fun (key, values) -> (key, Seq.map snd values |> List.ofSeq))
     |> List.ofSeq
+
+let convertCountsToProbabilityIndexes list =
+    list 
+    |> List.fold (fun acc elem -> (fst acc + snd elem, snd acc @ [fst elem, fst acc])) (0, []) 
+    |> snd
 
 let createMarkovChain chainSize list =
     list 
@@ -23,3 +30,7 @@ let createMarkovChain chainSize list =
     |> groupChainLinks
     |> Seq.map (fun (key, values) -> (key, Seq.countBy id values |> List.ofSeq))
     |> List.ofSeq
+
+let createMarkovChainWithPropabilityIndexes chainSize list =
+    createMarkovChain chainSize list
+    |> List.map (fun (chainedElements, nextElements) -> (chainedElements, convertCountsToProbabilityIndexes nextElements))

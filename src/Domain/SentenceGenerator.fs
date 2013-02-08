@@ -11,6 +11,8 @@ let selectChainLinkToStartSentenceWith chainLinks =
         punctuationWordChainLinks.Item randomIndex
     | _  -> List.head chainLinks
 
+let sentenceIsComplete list =
+    List.last list |> isPunctuationWord
 
 let generate chainSize (text:string) =
     ""
