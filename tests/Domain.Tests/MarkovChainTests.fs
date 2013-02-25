@@ -49,13 +49,13 @@ type MarkovChainTests() =
     member this.groupChainLinksOnEmptyListReturnsEmptyList() =  
         Assert.True([] = groupChainLinks [])
 
-    [<Fact>]
-    member this.convertCountsToProbabilityIndexesReturnsCorrectlyConvertCountsToProbabilityIndexes() =        
-        Assert.True([("there", 0); ("hello", 4); ("world", 7)] = convertCountsToProbabilityIndexes [("there", 4); ("hello", 3); ("world", 2)])
+//    [<Fact>]
+//    member this.convertCountsToProbabilitiesReturnsCorrectlyConvertCountsToProbabilityIndexes() =        
+//        Assert.True([("there", 0.0); ("hello", 0.7); ("world", 0.9)] = convertCountsToProbabilities [("there", 7); ("hello", 2); ("world", 1)])
     
     [<Fact>]
-    member this.convertCountsToProbabilityIndexesOnEmptyListDoesNotThrowException() =  
-        Assert.DoesNotThrow(fun() -> convertCountsToProbabilityIndexes [] |> ignore)
+    member this.convertCountsToProbabilitiesOnEmptyListDoesNotThrowException() =  
+        Assert.DoesNotThrow(fun() -> convertCountsToProbabilities [] |> ignore)
 
     [<Fact>]
     member this.createMarkovChainWithChainSizeIsTwoReturnsCorrectMarkovChain() =        
@@ -77,23 +77,23 @@ type MarkovChainTests() =
     [<InlineData(-1)>]
     member this.createMarkovChainWithChainSizeIsInvalidThrowsException(chainSize) =  
         Assert.Throws<Exception>(fun() -> createMarkovChain chainSize ["hello"; "there"; "world"; "!"] |> ignore)
-
-    [<Fact>]
-    member this.createMarkovChainWithPropabilityIndexesWithChainSizeIsTwoReturnsCorrectMarkovChain() =        
-        let markovChain = createMarkovChainWithPropabilityIndexes 2 ["hello"; "there"; "world"; "hello"; "hello"; "hello"; "world"]
-        Assert.True([["hello"], [("there", 0); ("hello", 1); ("world", 3)]; 
-                     ["there"], [("world", 0)];
-                     ["world"], [("hello", 0)]] = markovChain)
-
-    [<Fact>]
-    member this.createMarkovChainWithPropabilityIndexesWithChainSizeIsGreaterThanTwoReturnsCorrectMarkovChain() =        
-        let markovChain = createMarkovChainWithPropabilityIndexes 3 ["hello"; "there"; "hello"; "there"; "hello"; "there"; "world"]
-        Assert.True([["hello"; "there"], [("hello", 0); ("world", 2)]; 
-                     ["there"; "hello"], [("there", 0)]] = markovChain)
-
-    [<Theory>]
-    [<InlineData(1)>]
-    [<InlineData(0)>]
-    [<InlineData(-1)>]
-    member this.createMarkovChainWithPropabilityIndexesWithChainSizeIsInvalidThrowsException(chainSize) =  
-        Assert.Throws<Exception>(fun() -> createMarkovChainWithPropabilityIndexes chainSize ["hello"; "there"; "world"; "!"] |> ignore)
+//
+//    [<Fact>]
+//    member this.createMarkovChainWithPropabilitiesWithChainSizeIsTwoReturnsCorrectMarkovChain() =        
+//        let markovChain = createMarkovChainWithPropabilities 2 ["hello"; "there"; "world"; "hello"; "hello"; "hello"; "world"]
+//        Assert.True([["hello"], [("there", 0.0); ("hello", 0.33); ("world", 0.33)]; 
+//                     ["there"], [("world", 0.0)];
+//                     ["world"], [("hello", 0.0)]] = markovChain)
+//
+//    [<Fact>]
+//    member this.createMarkovChainWithPropabilitiesWithChainSizeIsGreaterThanTwoReturnsCorrectMarkovChain() =        
+//        let markovChain = createMarkovChainWithPropabilities 3 ["hello"; "there"; "hello"; "there"; "hello"; "there"; "world"]
+//        Assert.True([["hello"; "there"], [("hello", 0.0); ("world", 0.66)]; 
+//                     ["there"; "hello"], [("there", 0.0)]] = markovChain)
+//
+//    [<Theory>]
+//    [<InlineData(1)>]
+//    [<InlineData(0)>]
+//    [<InlineData(-1)>]
+//    member this.createMarkovChainWithPropabilitiesWithChainSizeIsInvalidThrowsException(chainSize) =  
+//        Assert.Throws<Exception>(fun() -> createMarkovChainWithPropabilities chainSize ["hello"; "there"; "world"; "!"] |> ignore)

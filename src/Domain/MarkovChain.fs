@@ -3,6 +3,9 @@
 open System
 
 let random = new Random()
+
+type ElementWithCount<'a> = 'a * int
+type ElementWithPropability<'a> = 'a * float
             
 let createChainLink list =    
     match List.length list with
@@ -19,10 +22,11 @@ let groupChainLinks chainLinks =
     |> Seq.map (fun (key, values) -> (key, Seq.map snd values |> List.ofSeq))
     |> List.ofSeq
 
-let convertCountsToProbabilityIndexes list =
-    list 
-    |> List.fold (fun acc elem -> (fst acc + snd elem, snd acc @ [fst elem, fst acc])) (0, []) 
-    |> snd
+let convertCountsToProbabilities counts =
+    let total = List.sumBy snd counts    
+    counts
+    |> List.map (fun (x,y) -> (x, float y))
+    |> List.map (fun (x,y) -> (x, y / total))
 
 let createMarkovChain chainSize list =
     list 
@@ -31,6 +35,6 @@ let createMarkovChain chainSize list =
     |> Seq.map (fun (key, values) -> (key, Seq.countBy id values |> List.ofSeq))
     |> List.ofSeq
 
-let createMarkovChainWithPropabilityIndexes chainSize list =
-    createMarkovChain chainSize list
-    |> List.map (fun (chainedElements, nextElements) -> (chainedElements, convertCountsToProbabilityIndexes nextElements))
+//let createMarkovChainWithPropabilities chainSize list =
+//    createMarkovChain chainSize list
+//    |> List.map (fun (chainedElements, nextElements) -> (chainedElements, convertCountsToProbabilities nextElements))

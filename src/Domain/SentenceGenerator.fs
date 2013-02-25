@@ -1,10 +1,10 @@
 ﻿module Domain.SentenceGenerator
 
-open Domain.Words
+open Domain.Word
 open System
 
 let selectChainLinkToStartSentenceWith chainLinks =
-    let punctuationWordChainLinks = List.filter (fun x -> isPunctuationWord (List.last (fst x))) chainLinks    
+    let punctuationWordChainLinks = List.filter (fun x -> isPunctuation (List.last (fst x))) chainLinks    
     match punctuationWordChainLinks with    
     | [x] -> 
         let randomIndex = (new System.Random()).Next(List.length punctuationWordChainLinks)
@@ -12,7 +12,7 @@ let selectChainLinkToStartSentenceWith chainLinks =
     | _  -> List.head chainLinks
 
 let sentenceIsComplete list =
-    List.last list |> isPunctuationWord
+    List.last list |> isPunctuation
 
 let generate chainSize (text:string) =
     ""

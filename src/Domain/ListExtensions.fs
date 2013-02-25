@@ -13,12 +13,12 @@ let take length list =
     if length < 1 then failwith "The length parameter must be greater than zero."
     list |> Seq.take length |> List.ofSeq
 
-let takeRandom list =
+let takeRandom list =    
     match list with
+    | [] -> failwith "Cannot call List.takeRandom on empty list."
     | x -> 
         let index = random.Next(List.length list)
-        list.Item index
-    | _ -> failwith "Cannot call List.takeRandom on empty list."
+        list.Item index    
 
 let rec partitionByLength length list =
     if length < 1 then failwith "The length parameter must be greater than zero."

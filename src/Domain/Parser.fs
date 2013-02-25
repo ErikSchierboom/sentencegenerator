@@ -1,7 +1,7 @@
 ﻿module Domain.Parser
 
 open System
-open Domain.Words
+open Domain.Word
 
 let parse (text:string) =
-    splitWords text
+    Domain.Word.parse text

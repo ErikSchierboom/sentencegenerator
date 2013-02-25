@@ -1,10 +1,10 @@
 ﻿namespace Domain.Tests
 
-open Domain.Words
+open Domain.Word
 open Xunit
 open Xunit.Extensions
 
-type WordsTests() = 
+type WordTests() = 
 
     [<Theory>]
     [<InlineData(";")>]
@@ -12,8 +12,8 @@ type WordsTests() =
     [<InlineData(".")>]
     [<InlineData("!")>]
     [<InlineData("?")>]
-    member this.isPunctuationWordOnPunctuationCharacterReturnsTrue(word) =         
-        Assert.True(isPunctuationWord word)
+    member this.isPunctuationOnPunctuationCharacterReturnsTrue(word) =         
+        Assert.True(isPunctuation word)
 
     [<Theory>]
     [<InlineData(" ")>]
@@ -29,8 +29,8 @@ type WordsTests() =
     [<InlineData("[")>]
     [<InlineData("]")>]
     [<InlineData("|")>]
-    member this.isPunctuationWordOnNonPunctuationCharacterReturnsFalse(word) =         
-        Assert.False(isPunctuationWord word)
+    member this.isPunctuationOnNonPunctuationCharacterReturnsFalse(word) =         
+        Assert.False(isPunctuation word)
 
     [<Theory>]
     [<InlineData("hello;")>]
@@ -43,23 +43,23 @@ type WordsTests() =
         Assert.Equal<string>("hello " + wordsString.Substring(5) + " ", wordWithPunctuationCharactersMarked)
 
     [<Fact>]
-    member this.sanitizeWordTrimsWord() =  
-        Assert.Equal<string>("hello", sanitizeWord " hello ")
+    member this.sanitizeTrimsWord() =  
+        Assert.Equal<string>("hello", sanitize " hello ")
 
     [<Fact>]  
-    member this.sanitizeWordReturnsLowerCaseString() =
-        Assert.Equal<string>("hello there world", sanitizeWord "HELLO THERE woRLD")
+    member this.sanitizeReturnsLowerCaseString() =
+        Assert.Equal<string>("hello there world", sanitize "HELLO THERE woRLD")
 
     [<Fact>]  
-    member this.sanitizeWordMarksPunctuationCharactersAsWords() =
-        Assert.Equal<string>("h ; e , l . l ! o ? ", sanitizeWord "h;e,l.l!o?")
+    member this.sanitizeMarksPunctuationCharactersAsWords() =
+        Assert.Equal<string>("h ; e , l . l ! o ? ", sanitize "h;e,l.l!o?")
 
     [<Theory>]
     [<InlineData("hello world")>]
     [<InlineData("hello\tworld")>]
     [<InlineData("hello\nworld")>]
-    member this.splitWordReturnsWordSplitBySeparator(wordsString) =
-        Assert.True(["hello"; "world"] = splitWord wordsString)
+    member this.splitReturnsWordSplitBySeparator(wordsString) =
+        Assert.True(["hello"; "world"] = split wordsString)
 
     [<Theory>]
     [<InlineData("")>]
@@ -67,20 +67,20 @@ type WordsTests() =
     [<InlineData("  ")>]
     [<InlineData("\t")>]
     [<InlineData("\n")>]
-    member this.splitWordsOnWhiteSpaceStringReturnsEmptyList(wordsString) =
-        Assert.True((splitWords wordsString).IsEmpty)
+    member this.parseOnWhiteSpaceStringReturnsEmptyList(wordsString) =
+        Assert.True((parse wordsString).IsEmpty)
 
     [<Fact>]    
-    member this.splitWordsTreatsPunctuationCharactersAsWords() =
-        Assert.True(["hello"; ";"; "there"; ","; "world"; "."; "hello"; "!"; "there"; "?"] = splitWords "hello;there,world.hello!there?")
+    member this.parseTreatsPunctuationCharactersAsWords() =
+        Assert.True(["hello"; ";"; "there"; ","; "world"; "."; "hello"; "!"; "there"; "?"] = parse "hello;there,world.hello!there?")
 
     [<Theory>]
     [<InlineData("hello there world")>]
     [<InlineData("hello\nthere\nworld")>]
     [<InlineData("hello\tthere\tworld")>]
-    member this.splitWordsReturnsListOfWords(wordsString) =
-        Assert.True(["hello"; "there"; "world"] = splitWords wordsString)
+    member this.parseReturnsListOfWords(wordsString) =
+        Assert.True(["hello"; "there"; "world"] = parse wordsString)
 
     [<Fact>]
-    member this.splitWordsDoesNotReturnEmptyWords() =
-        Assert.True(["hello"; "there"; "world"; "?"] = splitWords " hello\t  there world?  ")
+    member this.parseDoesNotReturnEmptyWords() =
+        Assert.True(["hello"; "there"; "world"; "?"] = parse " hello\t  there world?  ")
