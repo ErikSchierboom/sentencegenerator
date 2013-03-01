@@ -44,7 +44,7 @@ type ListExtensionsTests() =
 
     [<Fact>]
     member this.takeRandomOnEmptyListThrowsArgumentException() =  
-        Assert.Throws<ArgumentException>(fun() -> List.takeRandom [] |> ignore)
+        Assert.Throws<Exception>(fun() -> List.takeRandom [] |> ignore)
 
     [<Fact>]
     member this.partitionByLengthWithLengthIsOneReturnsCorrectPartionedBlocks() =        
@@ -55,3 +55,19 @@ type ListExtensionsTests() =
     member this.partitionByLengthWithLengthGreaterThanOneReturnsCorrectPartionedBlocks() =        
         let partitionBlock = List.partitionByLength 3 ["hello"; "there"; "world"; "!"]
         Assert.True([["hello"; "there"; "world"]; ["there"; "world"; "!"]] = partitionBlock)
+
+    [<Fact>]
+    member this.withSingleTailElementOnListOfLengthTwoReturnsCorrectState() =    
+        Assert.True((["hello"], "there") = List.withSingleTailElement ["hello"; "there"])
+
+    [<Fact>]
+    member this.withSingleTailElementOnListOfLengthGreaterThanTwoReturnsCorrectState() =  
+        Assert.True((["hello"; "there"], "world") = List.withSingleTailElement ["hello"; "there"; "world"])
+
+    [<Fact>]
+    member this.withSingleTailElementOnEmptyListThrowsException() =  
+        Assert.Throws<Exception>(fun() -> List.withSingleTailElement [] |> ignore)
+
+    [<Fact>]
+    member this.withSingleTailElementOnListWithListWithOneItemThrowsException() =  
+        Assert.Throws<Exception>(fun() -> List.withSingleTailElement ["hello"] |> ignore)

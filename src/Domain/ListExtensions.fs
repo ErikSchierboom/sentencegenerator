@@ -25,3 +25,8 @@ let rec partitionByLength length list =
     match List.length list with
     | x when x < length -> []
     | x -> take length list :: partitionByLength length (List.tail list)
+
+let withSingleTailElement list =    
+    match List.length list with
+    | length when length < 2 -> failwith "The list must have at least two items."
+    | length -> take (length - 1) list, list.Item (length - 1)
