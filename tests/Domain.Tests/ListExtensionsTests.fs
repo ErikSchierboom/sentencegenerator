@@ -47,6 +47,15 @@ type ListExtensionsTests() =
         Assert.Throws<Exception>(fun() -> List.takeRandom [] |> ignore)
 
     [<Fact>]
+    member this.takeRandomProbabilityReturnsRandomElement() =        
+        let randomElements = List.fold (fun acc element -> (List.takeRandomProbability ["hello", 0.9; "there", 0.1]) :: acc) [] [1..20]         
+        Assert.True(Seq.distinct randomElements |> Seq.length > 1)
+
+    [<Fact>]
+    member this.takeRandomProbabilityOnEmptyListThrowsArgumentException() =  
+        Assert.Throws<Exception>(fun() -> List.takeRandomProbability [] |> ignore)
+
+    [<Fact>]
     member this.partitionByLengthWithLengthIsOneReturnsCorrectPartionedBlocks() =        
         let partitionBlock = List.partitionByLength 1 ["hello"; "there"; "world"; "!"]
         Assert.True([["hello"]; ["there"]; ["world"]; ["!"]] = partitionBlock)

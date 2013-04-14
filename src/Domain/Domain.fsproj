@@ -42,8 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Random.fs" />
-    <Compile Include="Word.fs" />
     <Compile Include="ListExtensions.fs" />
+    <Compile Include="Word.fs" />
     <Compile Include="Markov.fs" />
     <Compile Include="Parser.fs" />
     <Compile Include="SentenceGenerator.fs" />

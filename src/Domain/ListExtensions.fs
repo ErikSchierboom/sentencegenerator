@@ -18,7 +18,14 @@ let takeRandom list =
     | [] -> failwith "Cannot call List.takeRandom on empty list."
     | x -> 
         let index = random.Next(List.length list)
-        list.Item index    
+        list.Item index
+
+let takeRandomProbability list =    
+    match list with
+    | [] -> failwith "Cannot call List.takeRandomProbability on empty list."
+    | x -> 
+        let index = random.Next(List.length list)
+        list.Item index
 
 let rec partitionByLength length list =
     if length < 1 then failwith "The length parameter must be greater than zero."
