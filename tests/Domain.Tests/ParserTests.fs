@@ -1,6 +1,6 @@
-﻿namespace Domain.Tests
+﻿namespace StudioDonder.SentenceGenerator.Domain.Tests
 
-open Domain.Parser
+open StudioDonder.SentenceGenerator.Domain.Parser
 open Xunit
 open Xunit.Extensions
 

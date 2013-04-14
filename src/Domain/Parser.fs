@@ -1,7 +1,9 @@
-﻿module Domain.Parser
+﻿namespace StudioDonder.SentenceGenerator.Domain
 
 open System
-open Domain.Word
+open StudioDonder.SentenceGenerator.Domain.Word
 
-let parse (text:string) =
-    Domain.Word.parse text
+module Parser = 
+
+    let parse (text:string) =
+        StudioDonder.SentenceGenerator.Domain.Word.parse text

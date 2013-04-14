@@ -1,4 +1,4 @@
-﻿namespace Domain
+﻿namespace StudioDonder.SentenceGenerator.Domain
 
 open System
 

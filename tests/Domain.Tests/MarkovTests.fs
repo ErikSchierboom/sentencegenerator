@@ -1,6 +1,6 @@
-﻿namespace Domain.Tests
+﻿namespace StudioDonder.SentenceGenerator.Domain.Tests
 
-open Domain.Markov
+open StudioDonder.SentenceGenerator.Domain.Markov
 open System
 open Xunit
 open Xunit.Extensions

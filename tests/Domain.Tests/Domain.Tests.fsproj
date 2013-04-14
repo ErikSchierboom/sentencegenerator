@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Compile Include="RandomTests.fs" />
     <Compile Include="WordTests.fs" />
     <Compile Include="ListExtensionsTests.fs" />
     <Compile Include="MarkovTests.fs" />

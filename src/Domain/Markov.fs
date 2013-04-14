@@ -1,10 +1,8 @@
-﻿namespace Domain
+﻿namespace StudioDonder.SentenceGenerator.Domain
 
 open System
 
 module Markov =
-
-    let random = new Random()
 
     let prepareListElementForProcessing list = list |> List.withSingleTailElement 
             

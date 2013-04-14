@@ -1,7 +1,7 @@
 ﻿// Learn more about F# at http://fsharp.net
 // See the 'F# Tutorial' project for more help.
 
-open Domain.Parser
+open StudioDonder.SentenceGenerator.Domain.Parser
 
 [<EntryPoint>]
 let main argv = 
