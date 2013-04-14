@@ -23,5 +23,9 @@ type SentenceGeneratorTests() =
         Assert.False(sentenceIsComplete ["hello"; "there"; "world"])
 
     [<Fact>]
+    member this.chainLinksToSentenceReturnsConcatenatedWords() =
+        Assert.Equal<string>("hello world.", chainLinksToSentence [["hello"]; ["world"]; ["."]])
+
+    [<Fact>]
     member this.generateReturnsRandomlyGeneratedSentence() =
         Assert.Equal<string>("asdasd", generate 2 "hello there world!")

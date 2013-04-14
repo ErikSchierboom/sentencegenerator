@@ -1,6 +1,7 @@
 ﻿module Domain.SentenceGenerator
 
 open Domain.Word
+open Domain.Markov
 open System
 
 let selectChainLinkToStartSentenceWith chainLinks =
@@ -14,5 +15,11 @@ let selectChainLinkToStartSentenceWith chainLinks =
 let sentenceIsComplete list =
     List.last list |> isPunctuation
 
+let chainLinksToSentence chainLinks =    
+    let (words:string list) = List.collect id chainLinks        
+    String.Join("", List.toArray words)
+
 let generate chainSize (text:string) =
+    let chainLinks = createMarkovChain chainSize (parse text)    
+    let startChainLink = chainLinks
     ""
