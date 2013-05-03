@@ -7,5 +7,5 @@ open StudioDonder.SentenceGenerator.Domain.Parser
 let main argv = 
     let input = "hello there world! this is the input; for my markov chain generator."
 
-    printfn "%A" (parse input)
+    printfn "%A" (parseWords input)
     0 // return an integer exit code

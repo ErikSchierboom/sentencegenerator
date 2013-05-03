@@ -7,6 +7,30 @@ open Xunit.Extensions
 
 type MarkovTests() =     
 
+ [<Fact>]
+    member this.elementsWithCountReturnsElementsWithCount() =        
+        Assert.True([{ Element = "there"; Count = 2 }; { Element = "hello"; Count = 1 }; { Element = "world"; Count = 1 }] = elementsWithCount ["there"; "hello"; "there"; "world"])
+    
+    [<Fact>]
+    member this.elementsWithCountOnEmptyListDoesNotThrowException() =  
+        Assert.DoesNotThrow(fun() -> elementsWithCount [] |> ignore)
+
+    [<Fact>]
+    member this.elementsWithProbabilitiesReturnsElementsWithProbabilities() =        
+        let elementsWithProbabilities = elementsWithProbabilities ["there"; "hello"; "there"; "world"]
+        Assert.True([{ Element = "there"; Probability = 0.5 }; { Element = "hello"; Probability = 0.25 }; { Element = "world"; Probability = 0.25 }] = elementsWithProbabilities)
+    
+    [<Fact>]
+    member this.elementsWithProbabilitiesOnEmptyListDoesNotThrowException() =  
+        Assert.DoesNotThrow(fun() -> elementsWithProbabilities [] |> ignore)
+
+(*
+    [<Fact>]
+    member this.prepareListElementForProcessingOnListOfLengthTwoReturnsCorrectState() =    
+        Assert.True((["hello"], "there") = prepareListElementForProcessing ["hello"; "there"])
+    
+
+
     [<Fact>]
     member this.prepareListElementForProcessingOnListOfLengthTwoReturnsCorrectState() =    
         Assert.True((["hello"], "there") = prepareListElementForProcessing ["hello"; "there"])
@@ -40,22 +64,9 @@ type MarkovTests() =
     member this.prepareListForProcessingWithChainSizeIsInvalidThrowsException(chainSize) =  
         Assert.Throws<Exception>(fun() -> prepareListForProcessing chainSize ["hello"; "there"; "world"; "!"] |> ignore)
 
-    [<Fact>]
-    member this.elementsWithCountReturnsElementsWithCount() =        
-        Assert.True([("there", 2); ("hello", 1); ("world", 1)] = elementsWithCount ["there"; "hello"; "there"; "world"])
     
-    [<Fact>]
-    member this.elementsWithCountOnEmptyListDoesNotThrowException() =  
-        Assert.DoesNotThrow(fun() -> elementsWithCount [] |> ignore)
 
-    [<Fact>]
-    member this.elementsWithProbabilitiesReturnsElementsWithProbabilities() =        
-        let bla = elementsWithProbabilities ["there"; "hello"; "there"; "world"]
-        Assert.True([("there", 0.5); ("hello", 0.25); ("world", 0.25)] = bla)
     
-    [<Fact>]
-    member this.elementsWithProbabilitiesOnEmptyListDoesNotThrowException() =  
-        Assert.DoesNotThrow(fun() -> elementsWithProbabilities [] |> ignore)
 
     [<Fact>]
     member this.groupNextStatesReturnsCorrectlyGroupedStates() =        
@@ -86,3 +97,5 @@ type MarkovTests() =
     [<InlineData(-1)>]
     member this.createMarkovChainWithChainSizeIsInvalidThrowsException(chainSize) =  
         Assert.Throws<Exception>(fun() -> createMarkovChain chainSize ["hello"; "there"; "world"; "!"] |> ignore)
+
+        *)
