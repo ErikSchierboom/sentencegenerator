@@ -2,7 +2,7 @@
 
 open System
 
-let random = new Random()
+let private random = new Random()
 
 let rec last = function    
     | x :: [] -> x

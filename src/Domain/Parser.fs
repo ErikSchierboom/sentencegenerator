@@ -6,4 +6,6 @@ open StudioDonder.SentenceGenerator.Domain.Word
 module Parser = 
 
     let parse (text:string) =
-        StudioDonder.SentenceGenerator.Domain.Word.parse text
+        []
+        (*StudioDonder.SentenceGenerator.Domain.Word.parse text*)
+        

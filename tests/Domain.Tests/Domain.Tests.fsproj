@@ -55,8 +55,9 @@
     <Compile Include="RandomTests.fs" />
     <Compile Include="ListExtensionsTests.fs" />
     <Compile Include="WordTests.fs" />
-    <Compile Include="MarkovTests.fs" />
+    <Compile Include="SentenceTests.fs" />
     <Compile Include="ParserTests.fs" />
+    <Compile Include="MarkovTests.fs" />
     <Compile Include="SentenceGeneratorTests.fs" />
     <Compile Include="TextGeneratorTests.fs" />
   </ItemGroup>

@@ -6,6 +6,8 @@ open System
 
 module SentenceGenerator = 
 
+    let bla = string
+(*
     let selectChainLinkToStartSentenceWith chainLinks =
         let punctuationWordChainLinks = List.filter (fun x -> isPunctuation (List.last (fst x))) chainLinks    
         match punctuationWordChainLinks with    
@@ -26,3 +28,4 @@ module SentenceGenerator =
         let chainLinks = createMarkovChain chainSize (parse text)    
         let startChainLink = chainLinks
         ""
+*)
