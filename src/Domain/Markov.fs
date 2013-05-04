@@ -21,11 +21,11 @@ module Markov =
 
     type ChainLinkWithCount<'T> = 
         {Chain: ElementChain<'T>
-         Successors: ElementWithCount<'T> list}  
+         SuccessorsWithCount: ElementWithCount<'T> list}  
 
     type ChainLinkWithProbabilities<'T> = 
         {Chain: ElementChain<'T>
-         Successors: ElementWithProbability<'T> list}
+         SuccessorsWithProbabilities: ElementWithProbability<'T> list}
 
     type Chain<'T> = ChainLinkWithProbabilities<'T> list
 
@@ -39,27 +39,15 @@ module Markov =
         list
         |> elementsWithCount
         |> List.map (fun x -> { Element = x.Element; Probability = float x.Count / (float (List.length list)) })
-        
-         
-(*
-    let prepareListElementForProcessing list = list |> List.withSingleTailElement 
             
-    let prepareListForProcessing chainSize list =    
+    let createChainLinks chainSize list =    
         list
-        |> List.partitionByLength chainSize 
-        |> List.map prepareListElementForProcessing
-            
-    let groupNextStates list =    
-        list
+        |> List.partitionByLength (chainSize + 1)
+        |> List.map List.withSingleTailElement 
         |> Seq.groupBy fst
-        |> Seq.map (fun (key, values) -> (key, Seq.map snd values |> List.ofSeq))
+        |> Seq.map (fun (chain, successor) -> { ChainLink.Chain = chain; ChainLink.Successors = Seq.map snd successor |> List.ofSeq })
         |> List.ofSeq
 
-    let createMarkovChain chainSize list =
-        list 
-        |> prepareListForProcessing chainSize
-        |> groupNextStates
-        |> Seq.map (fun (key, values) -> (key, elementsWithProbabilities values))
-        |> List.ofSeq
-
-        *)
+    let createChainLinksWithCount chainSize list =    
+        list
+        |> createChainLinks chainSize       

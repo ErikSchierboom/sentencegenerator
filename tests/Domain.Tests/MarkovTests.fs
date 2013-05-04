@@ -24,58 +24,41 @@ type MarkovTests() =
     member this.elementsWithProbabilitiesOnEmptyListDoesNotThrowException() =  
         Assert.DoesNotThrow(fun() -> elementsWithProbabilities [] |> ignore)
 
-(*
     [<Fact>]
-    member this.prepareListElementForProcessingOnListOfLengthTwoReturnsCorrectState() =    
-        Assert.True((["hello"], "there") = prepareListElementForProcessing ["hello"; "there"])
-    
-
+    member this.createChainLinksWithChainSizeIsOneAndOnlyOneSuccessorPerChainReturnsCorrectChainLinks() =        
+        let chainLinks = createChainLinks 1 ["hello"; "there"; "world"; "!"]
+        Assert.True([{ Chain = ["hello"]; Successors = ["there"] }; { Chain = ["there"];  Successors = ["world"] }; { Chain = ["world"]; Successors = ["!"] }] = chainLinks)
 
     [<Fact>]
-    member this.prepareListElementForProcessingOnListOfLengthTwoReturnsCorrectState() =    
-        Assert.True((["hello"], "there") = prepareListElementForProcessing ["hello"; "there"])
+    member this.createChainLinksWithChainSizeIsGreaterThanOneAndOnlyOneSuccessorPerChainReturnsCorrectChainLinks() =        
+        let chainLinks = createChainLinks 2 ["hello"; "there"; "world"; "!"]
+        Assert.True([{ Chain = ["hello"; "there"]; Successors = ["world"] }; { Chain = ["there"; "world"]; Successors = ["!"] }] = chainLinks)                
 
     [<Fact>]
-    member this.prepareListElementForProcessingOnListOfLengthGreaterThanTwoReturnsCorrectState() =  
-        Assert.True((["hello"; "there"], "world") = prepareListElementForProcessing ["hello"; "there"; "world"])
+    member this.createChainLinksWithChainSizeIsOneAndMoreThanOneSuccessorPerChainReturnsCorrectChainLinks() =        
+        let chainLinks = createChainLinks 1 ["hello"; "there"; "hello"; "!"]
+        Assert.True([{ Chain = ["hello"]; Successors = ["there"; "!"] }; { Chain = ["there"];  Successors = ["hello"] }] = chainLinks)
 
     [<Fact>]
-    member this.prepareListElementForProcessingOnEmptyListThrowsException() =  
-        Assert.Throws<Exception>(fun() -> prepareListElementForProcessing [] |> ignore)
+    member this.createChainLinksWithChainSizeIsGreaterThanOneAndMoreThanOneSuccessorPerChainReturnsCorrectChainLinks() =        
+        let chainLinks = createChainLinks 2 ["hello"; "there"; "hello"; "there"; "!"]
+        Assert.True([{ Chain = ["hello"; "there"]; Successors = ["hello"; "!"] }; { Chain = ["there"; "hello"]; Successors = ["there"] }] = chainLinks)
 
     [<Fact>]
-    member this.prepareListElementForProcessingOnListWithListWithOneItemThrowsException() =  
-        Assert.Throws<Exception>(fun() -> prepareListElementForProcessing ["hello"] |> ignore)
-
-    [<Fact>]
-    member this.prepareListForProcessingWithChainSizeIsTwoReturnsCorrectChainLinks() =        
-        let groupedLists = prepareListForProcessing 2 ["hello"; "there"; "world"; "!"]
-        Assert.True([["hello"], "there"; ["there"], "world"; ["world"], "!"] = groupedLists)
-
-    [<Fact>]
-    member this.prepareListForProcessingWithChainSizeIsGreaterThatTwoReturnsCorrectChainLinks() =        
-        let groupedLists = prepareListForProcessing 3 ["hello"; "there"; "world"; "!"]
-        Assert.True([["hello"; "there"], "world"; ["there"; "world"], "!"] = groupedLists)
+    member this.createChainLinksWithDuplicateSuccessorsReturnsDuplicates() =        
+        let chainLinks = createChainLinks 1 ["hello"; "there"; "hello"; "there"]
+        Assert.True([{ Chain = ["hello"]; Successors = ["there"; "there"] }; { Chain = ["there"];  Successors = ["hello"] }] = chainLinks)
 
     [<Theory>]
-    [<InlineData(1)>]
     [<InlineData(0)>]
     [<InlineData(-1)>]
-    member this.prepareListForProcessingWithChainSizeIsInvalidThrowsException(chainSize) =  
-        Assert.Throws<Exception>(fun() -> prepareListForProcessing chainSize ["hello"; "there"; "world"; "!"] |> ignore)
+    member this.createChainLinksWithChainSizeIsInvalidThrowsException(chainSize) =  
+        Assert.Throws<Exception>(fun() -> createChainLinks chainSize ["hello"; "there"; "world"; "!"] |> ignore)
 
     
-
+    (*
     
 
-    [<Fact>]
-    member this.groupNextStatesReturnsCorrectlyGroupedStates() =        
-        let groupedStates = groupNextStates [["hello"], "world"; ["there"], "!"; ["hello"], "world";  ["hello"], "there"]
-        Assert.True([["hello"], ["world"; "world"; "there"]; ["there"], ["!"]] = groupedStates)
-
-    [<Fact>]
-    member this.groupNextStatesOnEmptyListReturnsEmptyList() =  
-        Assert.True([] = groupNextStates [])
 
     [<Fact>]
     member this.createMarkovChainWithChainSizeIsTwoReturnsCorrectMarkovChain() =        
