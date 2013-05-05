@@ -129,24 +129,8 @@ type WordTests() =
         Assert.Equal<string>("hey", wordToString (NormalWord "hey"))
 
     [<Fact>]
-    member this.wordsToStringReturnsWordsConcatenatedBySpace() =         
-        Assert.Equal<string>("hello world", wordsToString [NormalWord "hello"; NormalWord "world"])
-
-    [<Fact>]
-    member this.wordsToStringReturnsPunctuationWithoutPrecedingSpace() =         
-        Assert.Equal<string>("hello world!", wordsToString [NormalWord "hello"; NormalWord "world"; PunctuationWord "!"])
-
-    [<Fact>]
-    member this.wordsToStringReturnsPunctuationsWithoutPrecedingSpace() =         
-        Assert.Equal<string>("hello world!!", wordsToString [NormalWord "hello"; NormalWord "world"; PunctuationWord "!"; PunctuationWord "!"])
-
-    [<Fact>]
-    member this.wordsToStringReturnsSpaceBeforeNormalWordAfterPunctuation() =         
-        Assert.Equal<string>("hello world! hey", wordsToString [NormalWord "hello"; NormalWord "world"; PunctuationWord "!"; NormalWord "hey"])
-
-    [<Fact>]
-    member this.wordsToStringIgnoresSeparatorWords() =         
-        Assert.Equal<string>("hello", wordsToString [SeparatorWord; NormalWord "hello"; SeparatorWord])
+    member this.wordsToStringReturnsConcatenatedWords() =         
+        Assert.Equal<string>("hello world!", wordsToString [NormalWord "hello"; SeparatorWord; NormalWord "world"; PunctuationWord "!"])
 
     [<Fact>]
     member this.wordsToStringOnEmptyListReturnsEmptyString() =         

@@ -57,21 +57,7 @@ module Word =
         | PunctuationWord x -> x
         | SeparatorWord     -> " "
 
-    let wordsToString (words:Words) =        
-        match words with       
-        | [] -> ""
-        | _  ->        
-            let numberOfWords = List.length words
-            let convertWord index word = 
-                match word with
-                | SeparatorWord -> ""
-                | PunctuationWord x -> x
-                | NormalWord x -> if index = 0 then x else " " + x      
-            let isNoSeparatorWord word = not (wordToTextType word = Separator)
-            let wordsAsStrings = List.filter isNoSeparatorWord words
-                                |> List.mapi convertWord
-                                |> Array.ofList
-            String.Join("", wordsAsStrings)
+    let wordsToString (words:Words) = String.Join("", List.map wordToString words |> Array.ofList)
     
         
     
