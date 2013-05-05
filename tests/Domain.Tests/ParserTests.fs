@@ -48,8 +48,8 @@ type ParserTests() =
     [<InlineData("\t")>]
     [<InlineData("\n")>]
     [<InlineData("\r")>]
-    member this.parseWordsIgnoresSeparatorWords(separatorWord) =
-        Assert.Equal<Words>([], parseWords separatorWord)
+    member this.parseWordsCorrectlyParsesSeparatorWords(separatorWord) =
+        Assert.Equal<Words>([SeparatorWord], parseWords separatorWord)
 
     [<Theory>]
     [<InlineData(";")>]
@@ -61,5 +61,9 @@ type ParserTests() =
         Assert.Equal<Words>([PunctuationWord punctuationWord], parseWords punctuationWord)
 
     [<Fact>]    
-    member this.parseWordsCorrectedParsesString() =
-        Assert.Equal<Words>([NormalWord "hello"; PunctuationWord ";"; NormalWord "there"; PunctuationWord "!"], parseWords "hello; there!")
+    member this.parseWordsCorrectlyParsesNormalWords() =
+        Assert.Equal<Words>([NormalWord "hello"], parseWords "hello")
+
+    [<Fact>]    
+    member this.parseWordsCorrectlyParsesDifferentTextTypes() =
+        Assert.Equal<Words>([NormalWord "hello"; PunctuationWord ";"; SeparatorWord; NormalWord "there"; PunctuationWord "!"], parseWords "hello; there!")

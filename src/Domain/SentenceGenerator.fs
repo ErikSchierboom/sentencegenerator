@@ -8,5 +8,5 @@ open System
 module SentenceGenerator = 
 
     let generateSentences chainSize input =
-        let parsedWords = parseWords input
-        "" 
+        parseWords input
+        |> createChainLinksWithProbability chainSize

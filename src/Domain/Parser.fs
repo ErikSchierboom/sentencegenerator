@@ -1,6 +1,7 @@
 ﻿namespace StudioDonder.SentenceGenerator.Domain
 
 open System
+open System.IO
 open Word
 
 module Parser = 
@@ -31,6 +32,9 @@ module Parser =
             
     let parseWords (input:string) : Words =
         parseCharacters input
-        |> List.filter (fun c -> not (characterToTextType c = Separator))
-        |> groupCharacters        
+        |> groupCharacters
         |> List.map charactersToWord
+
+    let parseFile (file:string) : Words =
+        File.ReadAllText(file) 
+        |> parseWords
