@@ -6,7 +6,7 @@ open Xunit
 open Xunit.Extensions
 
 type WordTests() = 
-
+    
     [<Theory>]
     [<InlineData(';')>]
     [<InlineData(',')>]
@@ -61,6 +61,30 @@ type WordTests() =
         Assert.False(isSeparatorCharacter nonSeparatorCharacter)
 
     [<Fact>]
+    member this.characterToTextTypeOnNormalCharacterReturnsNormalTextType() =         
+        Assert.Equal<TextType>(Normal, characterToTextType (NormalCharacter 'a'))
+
+    [<Fact>]
+    member this.characterToTextTypeOnPunctuationCharacterReturnsPunctuationTextType() =         
+        Assert.Equal<TextType>(Punctuation, characterToTextType (PunctuationCharacter '.'))
+
+    [<Fact>]
+    member this.characterToTextTypeOnPunctuationCharacterReturnsSeparatorTextType() =         
+        Assert.Equal<TextType>(Separator, characterToTextType SeparatorCharacter)
+
+    [<Fact>]
+    member this.wordToTextTypeOnNormalWordReturnsNormalTextType() =         
+        Assert.Equal<TextType>(Normal, wordToTextType (NormalWord "a"))
+
+    [<Fact>]
+    member this.wordToTextTypeOnPunctuationWordReturnsPunctuationTextType() =         
+        Assert.Equal<TextType>(Punctuation, wordToTextType (PunctuationWord "."))
+
+    [<Fact>]
+    member this.wordToTextTypeOnPunctuationWordReturnsSeparatorTextType() =         
+        Assert.Equal<TextType>(Separator, wordToTextType SeparatorWord)
+
+    [<Fact>]
     member this.characterToStringOnNormalCharacterReturnSeparatorString() =         
         Assert.Equal<string>("a", characterToString (NormalCharacter 'a'))
 
@@ -71,3 +95,59 @@ type WordTests() =
     [<Fact>]
     member this.characterToStringOnSeparatorCharacterThrowsArgumentException() =         
         Assert.Throws<ArgumentException>(fun () -> characterToString SeparatorCharacter |> ignore)
+
+    [<Fact>]
+    member this.charactersToWordOnNormalCharactersReturnsNormalWord() =         
+        Assert.Equal<Word>(NormalWord "hey", charactersToWord [NormalCharacter 'h'; NormalCharacter 'e'; NormalCharacter 'y'])
+
+    [<Fact>]
+    member this.charactersToWordOnPunctuationCharacterReturnsPunctuationWord() =         
+        Assert.Equal<Word>(PunctuationWord ".", charactersToWord [PunctuationCharacter '.'])
+
+    [<Fact>]
+    member this.charactersToWordOnSeparatorCharacterReturnsSeparatorWord() =         
+        Assert.Equal<Word>(SeparatorWord, charactersToWord [SeparatorCharacter])
+
+    [<Fact>]
+    member this.charactersToWordOnSeparatorCharactersReturnsSeparatorWord() =         
+        Assert.Equal<Word>(SeparatorWord, charactersToWord [SeparatorCharacter; SeparatorCharacter; SeparatorCharacter])  
+
+    [<Fact>]  
+    member this.charactersToWordOnEmptyListThrowsArgumentException() =
+        Assert.Throws<ArgumentException>(fun() -> charactersToWord [] |> ignore)
+
+    [<Fact>]
+    member this.wordToStringOnSeparatorWordReturnsSpace() =         
+        Assert.Equal<string>(" ", wordToString SeparatorWord)
+
+    [<Fact>]
+    member this.wordToStringOnPunctuationWordReturnsPunctuation() =         
+        Assert.Equal<string>(".", wordToString (PunctuationWord "."))
+
+    [<Fact>]
+    member this.wordToStringOnNormalWordReturnsWord() =         
+        Assert.Equal<string>("hey", wordToString (NormalWord "hey"))
+
+    [<Fact>]
+    member this.wordsToStringReturnsWordsConcatenatedBySpace() =         
+        Assert.Equal<string>("hello world", wordsToString [NormalWord "hello"; NormalWord "world"])
+
+    [<Fact>]
+    member this.wordsToStringReturnsPunctuationWithoutPrecedingSpace() =         
+        Assert.Equal<string>("hello world!", wordsToString [NormalWord "hello"; NormalWord "world"; PunctuationWord "!"])
+
+    [<Fact>]
+    member this.wordsToStringReturnsPunctuationsWithoutPrecedingSpace() =         
+        Assert.Equal<string>("hello world!!", wordsToString [NormalWord "hello"; NormalWord "world"; PunctuationWord "!"; PunctuationWord "!"])
+
+    [<Fact>]
+    member this.wordsToStringReturnsSpaceBeforeNormalWordAfterPunctuation() =         
+        Assert.Equal<string>("hello world! hey", wordsToString [NormalWord "hello"; NormalWord "world"; PunctuationWord "!"; NormalWord "hey"])
+
+    [<Fact>]
+    member this.wordsToStringIgnoresSeparatorWords() =         
+        Assert.Equal<string>("hello", wordsToString [SeparatorWord; NormalWord "hello"; SeparatorWord])
+
+    [<Fact>]
+    member this.wordsToStringOnEmptyListReturnsEmptyString() =         
+        Assert.Equal<string>("", wordsToString [])

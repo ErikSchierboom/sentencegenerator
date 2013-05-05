@@ -1,11 +1,12 @@
-﻿// Learn more about F# at http://fsharp.net
-// See the 'F# Tutorial' project for more help.
+﻿namespace StudioDonder.SentenceGenerator.Console
 
-open StudioDonder.SentenceGenerator.Domain.Parser
+open StudioDonder.SentenceGenerator.Domain.SentenceGenerator
 
-[<EntryPoint>]
-let main argv = 
-    let input = "hello there world! this is the input; for my markov chain generator."
+module Main = 
 
-    printfn "%A" (parseWords input)
-    0 // return an integer exit code
+    [<EntryPoint>]
+    let main argv = 
+        let input = "hello there world! this is the input; for my markov chain generator."
+
+        printfn "%A" (generateSentences input)
+        0 // return an integer exit code

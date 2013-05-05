@@ -1,9 +1,12 @@
 ﻿namespace StudioDonder.SentenceGenerator.Domain
 
-open StudioDonder.SentenceGenerator.Domain.Word
-open StudioDonder.SentenceGenerator.Domain.Markov
+open Word
+open Parser
+open Markov
 open System
 
 module SentenceGenerator = 
 
-    let bla = string
+    let generateSentences chainSize input =
+        let parsedWords = parseWords input
+        "" 
