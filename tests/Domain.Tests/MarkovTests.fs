@@ -31,6 +31,18 @@ type MarkovTests() =
         Assert.DoesNotThrow(fun() -> elementsWithProbabilities [] |> ignore)
 
     [<Fact>]
+    member this.elementsWithCumulativeProbabilitiesReturnsElementsWithCumulativeProbabilities() =        
+        let elementsWithCumulativeProbabilities = elementsWithCumulativeProbabilities ["there"; "hello"; "there"; "world"]
+        Assert.Equal<ElementWithCumulativeProbability<string>>([{ Element = "there"; CumulativeProbability = 0.5 }; 
+                                                                { Element = "hello"; CumulativeProbability = 0.75 }; 
+                                                                { Element = "world"; CumulativeProbability = 1.0 }],
+                                                                elementsWithCumulativeProbabilities)
+    
+    [<Fact>]
+    member this.elementsWithCumulativeProbabilitiesOnEmptyListDoesNotThrowException() =  
+        Assert.DoesNotThrow(fun() -> elementsWithCumulativeProbabilities [] |> ignore)
+
+    [<Fact>]
     member this.createChainLinksWithChainSizeIsOneAndOnlyOneSuccessorPerChainReturnsCorrectChainLinks() =        
         let chainLinks = createChainLinks 1 ["hello"; "there"; "world"; "!"]
         Assert.Equal<ChainLink<string> list>([{ Chain = ["hello"]; Successors = ["there"] }; 
@@ -156,4 +168,47 @@ type MarkovTests() =
         let chainLinksWithProbability = createChainLinksWithProbability 2 ["hello"; "there"; "hello"; "there"; "hello"]
         Assert.Equal<ChainLinkWithProbabilities<string> list>([{ Chain = ["hello"; "there"]; SuccessorsWithProbabilities = [{ Element = "hello"; Probability = 1.0 }] }; 
                                                                { Chain = ["there"; "hello"]; SuccessorsWithProbabilities = [{ Element = "there"; Probability = 1.0 }] }], 
-                                                               chainLinksWithProbability)
+                                                               chainLinksWithProbability)                                                                                             
+
+    [<Fact>]
+    member this.createChainLinksWithCumulativeProbabilityWithChainSizeIsOneAndOnlyOneSuccessorPerChainReturnsCorrectChainLinks() =        
+        let chainLinksWithCumulativeProbability = createChainLinksWithCumulativeProbability 1 ["hello"; "there"; "world"; "!"]
+        Assert.Equal<ChainLinkWithCumulativeProbabilities<string> list>([{ Chain = ["hello"]; SuccessorsWithCumulativeProbabilities = [{ Element = "there"; CumulativeProbability = 1.0 }] }; 
+                                                                         { Chain = ["there"]; SuccessorsWithCumulativeProbabilities = [{ Element = "world"; CumulativeProbability = 1.0 }] }; 
+                                                                         { Chain = ["world"]; SuccessorsWithCumulativeProbabilities = [{ Element = "!"; CumulativeProbability = 1.0 }] }], 
+                                                                         chainLinksWithCumulativeProbability)
+
+    [<Fact>]
+    member this.createChainLinksWithCumulativeProbabilityWithChainSizeIsOneAndMoreThanOneSuccessorPerChainReturnsCorrectChainLinks() =        
+        let chainLinksWithCumulativeProbability = createChainLinksWithCumulativeProbability 1 ["hello"; "there"; "hello"; "!"]
+        Assert.Equal<ChainLinkWithCumulativeProbabilities<string> list>([{ Chain = ["hello"]; SuccessorsWithCumulativeProbabilities = [{ Element = "there"; CumulativeProbability = 0.5 }; { Element = "!"; CumulativeProbability = 1.0 }] }; 
+                                                                         { Chain = ["there"]; SuccessorsWithCumulativeProbabilities = [{ Element = "hello"; CumulativeProbability = 1.0 }] }], 
+                                                                         chainLinksWithCumulativeProbability)
+
+    [<Fact>]
+    member this.createChainLinksWithCumulativeProbabilityWithChainSizeIsOneAndDuplicateSuccessorsReturnsCorrectChainLinks() =        
+        let chainLinksWithCumulativeProbability = createChainLinksWithCumulativeProbability 1 ["hello"; "there"; "hello"; "there"]
+        Assert.Equal<ChainLinkWithCumulativeProbabilities<string> list>([{ Chain = ["hello"]; SuccessorsWithCumulativeProbabilities = [{ Element = "there"; CumulativeProbability = 1.0 }] }; 
+                                                                         { Chain = ["there"]; SuccessorsWithCumulativeProbabilities = [{ Element = "hello"; CumulativeProbability = 1.0 }] }], 
+                                                                         chainLinksWithCumulativeProbability)
+
+    [<Fact>]
+    member this.createChainLinksWithCumulativeProbabilityWithChainSizeIsTwoAndOnlyOneSuccessorPerChainReturnsCorrectChainLinks() =        
+        let chainLinksWithCumulativeProbability = createChainLinksWithCumulativeProbability 2 ["hello"; "there"; "world"; "!"]
+        Assert.Equal<ChainLinkWithCumulativeProbabilities<string> list>([{ Chain = ["hello"; "there"]; SuccessorsWithCumulativeProbabilities = [{ Element = "world"; CumulativeProbability = 1.0 }] }; 
+                                                                         { Chain = ["there"; "world"]; SuccessorsWithCumulativeProbabilities = [{ Element = "!"; CumulativeProbability = 1.0 }] }], 
+                                                                         chainLinksWithCumulativeProbability)
+
+    [<Fact>]
+    member this.createChainLinksWithCumulativeProbabilityWithChainSizeIsTwoAndMoreThanOneSuccessorPerChainReturnsCorrectChainLinks() =        
+        let chainLinksWithCumulativeProbability = createChainLinksWithCumulativeProbability 2 ["hello"; "there"; "hello"; "there"; "!"]
+        Assert.Equal<ChainLinkWithCumulativeProbabilities<string> list>([{ Chain = ["hello"; "there"]; SuccessorsWithCumulativeProbabilities = [{ Element = "hello"; CumulativeProbability = 0.5 }; { Element = "!"; CumulativeProbability = 1.0 }] }; 
+                                                                         { Chain = ["there"; "hello"]; SuccessorsWithCumulativeProbabilities = [{ Element = "there"; CumulativeProbability = 1.0 }] }], 
+                                                                         chainLinksWithCumulativeProbability)
+
+    [<Fact>]
+    member this.createChainLinksWithCumulativeProbabilityWithChainSizeIsTwoAndDuplicateSuccessorsReturnsCorrectChainLinks() =        
+        let chainLinksWithCumulativeProbability = createChainLinksWithCumulativeProbability 2 ["hello"; "there"; "hello"; "there"; "hello"]
+        Assert.Equal<ChainLinkWithCumulativeProbabilities<string> list>([{ Chain = ["hello"; "there"]; SuccessorsWithCumulativeProbabilities = [{ Element = "hello"; CumulativeProbability = 1.0 }] }; 
+                                                                         { Chain = ["there"; "hello"]; SuccessorsWithCumulativeProbabilities = [{ Element = "there"; CumulativeProbability = 1.0 }] }], 
+                                                                         chainLinksWithCumulativeProbability)

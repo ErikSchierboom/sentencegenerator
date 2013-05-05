@@ -11,7 +11,7 @@ module Parser =
         let lastTextType = ref (None:Option<TextType>)
         characters
         |> Seq.groupBy (fun c ->
-                if lastTextType.Value.IsSome && characterToTextType c = lastTextType.Value.Value then
+                if Option.isSome !lastTextType && characterToTextType c = Option.get !lastTextType then
                     key
                 else
                     incr key
