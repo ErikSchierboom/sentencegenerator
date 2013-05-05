@@ -21,15 +21,15 @@ type ListExtensionsTests() =
     
     [<Fact>]
     member this.takeReturnsLengthElementsFromStartOfList() =        
-        Assert.True(["hello"; "there"] = List.take 2 ["hello"; "there"; "world"; "!"])
+        Assert.Equal<string list>(["hello"; "there"], List.take 2 ["hello"; "there"; "world"; "!"])
 
     [<Fact>]
     member this.takeWithLengthIsOneReturnsHeadOfList() =
-        Assert.True(["hello"] = List.take 1 ["hello"; "there"; "world"; "!"])
+        Assert.Equal<string list>(["hello"], List.take 1 ["hello"; "there"; "world"; "!"])
 
     [<Fact>]
     member this.takeWithLengthGreaterThanNumberOfElementsReturnsMaximumNumberOfElements() =  
-        Assert.True(["hello"; "there"; "world"; "!"] = List.take 4 ["hello"; "there"; "world"; "!"])
+        Assert.Equal<string list>(["hello"; "there"; "world"; "!"], List.take 4 ["hello"; "there"; "world"; "!"])
 
     [<Theory>]
     [<InlineData(0)>]
@@ -58,20 +58,20 @@ type ListExtensionsTests() =
     [<Fact>]
     member this.partitionByLengthWithLengthIsOneReturnsCorrectPartionedBlocks() =        
         let partitionBlock = List.partitionByLength 1 ["hello"; "there"; "world"; "!"]
-        Assert.True([["hello"]; ["there"]; ["world"]; ["!"]] = partitionBlock)
+        Assert.Equal<string list list>([["hello"]; ["there"]; ["world"]; ["!"]], partitionBlock)
 
     [<Fact>]
     member this.partitionByLengthWithLengthGreaterThanOneReturnsCorrectPartionedBlocks() =        
         let partitionBlock = List.partitionByLength 3 ["hello"; "there"; "world"; "!"]
-        Assert.True([["hello"; "there"; "world"]; ["there"; "world"; "!"]] = partitionBlock)
+        Assert.Equal<string list list>([["hello"; "there"; "world"]; ["there"; "world"; "!"]], partitionBlock)
 
     [<Fact>]
     member this.withSingleTailElementOnListOfLengthTwoReturnsCorrectState() =    
-        Assert.True((["hello"], "there") = List.withSingleTailElement ["hello"; "there"])
+        Assert.Equal<string list * string>((["hello"], "there"), List.withSingleTailElement ["hello"; "there"])
 
     [<Fact>]
     member this.withSingleTailElementOnListOfLengthGreaterThanTwoReturnsCorrectState() =  
-        Assert.True((["hello"; "there"], "world") = List.withSingleTailElement ["hello"; "there"; "world"])
+        Assert.Equal<string list * string>((["hello"; "there"], "world"), List.withSingleTailElement ["hello"; "there"; "world"])
 
     [<Fact>]
     member this.withSingleTailElementOnEmptyListThrowsException() =  

@@ -6,7 +6,7 @@ module Markov =
 
     type Element<'T> = 'T
     type ElementChain<'T> = Element<'T> list
-
+    
     type ElementWithCount<'T> =
         {Element: Element<'T>
          Count: int}
@@ -32,22 +32,37 @@ module Markov =
     let elementsWithCount list =
         list     
         |> Seq.countBy id
-        |> Seq.map (fun (x, y) -> { Element = x; Count = y; })
+        |> Seq.map (fun (element, count) -> { Element = element; Count = count; })
         |> List.ofSeq
 
     let elementsWithProbabilities list =         
         list
         |> elementsWithCount
-        |> List.map (fun x -> { Element = x.Element; Probability = float x.Count / (float (List.length list)) })
+        |> List.map (fun elementWithCount -> { Element = elementWithCount.Element; Probability = float elementWithCount.Count / (float (List.length list)) })
             
     let createChainLinks chainSize list =    
         list
         |> List.partitionByLength (chainSize + 1)
         |> List.map List.withSingleTailElement 
         |> Seq.groupBy fst
-        |> Seq.map (fun (chain, successor) -> { ChainLink.Chain = chain; ChainLink.Successors = Seq.map snd successor |> List.ofSeq })
+        |> Seq.map (fun (chain, successor) -> { Chain = chain; Successors = Seq.map snd successor |> List.ofSeq })
         |> List.ofSeq
 
     let createChainLinksWithCount chainSize list =    
         list
-        |> createChainLinks chainSize       
+        |> createChainLinks chainSize     
+        |> List.map (fun chainLink -> 
+                    { Chain = chainLink.Chain; 
+                      SuccessorsWithCount = Seq.countBy id chainLink.Successors
+                                            |> Seq.map (fun (successor, count) -> { Element = successor; Count = count })
+                                            |> List.ofSeq 
+                    })
+
+    let createChainLinksWithProbability chainSize list =    
+        list
+        |> createChainLinksWithCount chainSize     
+        |> List.map (fun chainLink -> 
+                    { Chain = chainLink.Chain; 
+                      SuccessorsWithProbabilities = let totalCount = List.sumBy (fun x -> float x.Count) chainLink.SuccessorsWithCount
+                                                    List.map (fun (c:ElementWithCount<'T>) -> { Element = c.Element; Probability = float c.Count / totalCount }) chainLink.SuccessorsWithCount                                                    
+                    })

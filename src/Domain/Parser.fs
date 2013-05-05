@@ -24,9 +24,9 @@ module Parser =
         | [] -> raise (new ArgumentException("The characters list must not be empty."))
         | x::xs -> 
             match x with
-            | NormalCharacter _ -> NormalWord (String.Join("", List.map characterToString characters))
+            | NormalCharacter _      -> NormalWord (String.Join("", List.map characterToString characters))
             | PunctuationCharacter y -> PunctuationWord (characterToString x)
-            | SeparatorCharacter -> SeparatorWord
+            | SeparatorCharacter     -> SeparatorWord
 
     let parseCharacter (c: char) : Character =
         if isPunctuationCharacter c then PunctuationCharacter c
