@@ -212,3 +212,18 @@ type MarkovTests() =
         Assert.Equal<ChainLinkWithCumulativeProbabilities<string> list>([{ Chain = ["hello"; "there"]; SuccessorsWithCumulativeProbabilities = [{ Element = "hello"; CumulativeProbability = 1.0 }] }; 
                                                                          { Chain = ["there"; "hello"]; SuccessorsWithCumulativeProbabilities = [{ Element = "there"; CumulativeProbability = 1.0 }] }], 
                                                                          chainLinksWithCumulativeProbability)
+
+    [<Fact>]
+    member this.pickSuccessorBasedOnProbabilityWillPickSuccessorBasedOnProbability() =        
+        let successors = [{ Element = "hello"; CumulativeProbability = 0.01 }; { Element = "there"; CumulativeProbability = 1.0 }]
+        let pickedSuccessorsCount = List.init 20 (fun _ -> pickSuccessorBasedOnProbability { Chain = ["there"; "hello"]; SuccessorsWithCumulativeProbabilities = successors }) 
+                                    |> Seq.countBy (fun s -> s.Element)
+        let pickedSuccessorsCount element = if Seq.exists (fun (x,_) -> x = element) pickedSuccessorsCount 
+                                            then Seq.find (fun (x,_) -> x = element) pickedSuccessorsCount |> snd 
+                                            else 0
+        Assert.True(pickedSuccessorsCount "hello" < pickedSuccessorsCount "there")
+
+    [<Fact>]
+    member this.pickSuccessorBasedOnProbabilityWithOnlyOneSuccessorWillPickThatSuccessor() =        
+        let successor = pickSuccessorBasedOnProbability { Chain = ["there"; "hello"]; SuccessorsWithCumulativeProbabilities = [{ Element = "there"; CumulativeProbability = 1.0 }] }
+        Assert.Equal<ElementWithCumulativeProbability<string>>({ Element = "there"; CumulativeProbability = 1.0 }, successor)

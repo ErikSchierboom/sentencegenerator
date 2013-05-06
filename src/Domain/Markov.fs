@@ -59,3 +59,7 @@ module Markov =
         list
         |> createChainLinks chainSize     
         |> List.map (fun chainLink ->  { Chain = chainLink.Chain; SuccessorsWithCumulativeProbabilities = elementsWithCumulativeProbabilities chainLink.Successors })
+
+    let pickSuccessorBasedOnProbability (chainLink:ChainLinkWithCumulativeProbabilities<'T>) =
+        let probability = float (random.NextDouble())
+        List.find (fun successor -> probability <= successor.CumulativeProbability) chainLink.SuccessorsWithCumulativeProbabilities

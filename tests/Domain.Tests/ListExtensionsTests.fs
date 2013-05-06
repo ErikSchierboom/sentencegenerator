@@ -15,9 +15,8 @@ type ListExtensionsTests() =
         Assert.Throws<Exception>(fun() -> List.last [] |> ignore)
 
     [<Fact>]
-    member this.takeReturnsListOfSpecifiedSliceLength() =        
-        let slicedList = List.take 2 ["hello"; "there"; "world"; "!"]
-        Assert.Equal(2, List.length slicedList)
+    member this.takeReturnsListOfSpecifiedSliceLength() =
+        Assert.Equal(2, List.take 2 ["hello"; "there"; "world"; "!"] |> List.length)
     
     [<Fact>]
     member this.takeReturnsLengthElementsFromStartOfList() =        
@@ -38,14 +37,12 @@ type ListExtensionsTests() =
         Assert.Throws<Exception>(fun() -> List.take chainSize ["hello"; "there"; "world"; "!"] |> ignore)
 
     [<Fact>]
-    member this.partitionByLengthWithLengthIsOneReturnsCorrectPartionedBlocks() =        
-        let partitionBlock = List.partitionByLength 1 ["hello"; "there"; "world"; "!"]
-        Assert.Equal<string list list>([["hello"]; ["there"]; ["world"]; ["!"]], partitionBlock)
+    member this.partitionByLengthWithLengthIsOneReturnsCorrectPartionedBlocks() =  
+        Assert.Equal<string list list>([["hello"]; ["there"]; ["world"]; ["!"]], List.partitionByLength 1 ["hello"; "there"; "world"; "!"])
 
     [<Fact>]
-    member this.partitionByLengthWithLengthGreaterThanOneReturnsCorrectPartionedBlocks() =        
-        let partitionBlock = List.partitionByLength 3 ["hello"; "there"; "world"; "!"]
-        Assert.Equal<string list list>([["hello"; "there"; "world"]; ["there"; "world"; "!"]], partitionBlock)
+    member this.partitionByLengthWithLengthGreaterThanOneReturnsCorrectPartionedBlocks() =   
+        Assert.Equal<string list list>([["hello"; "there"; "world"]; ["there"; "world"; "!"]], List.partitionByLength 3 ["hello"; "there"; "world"; "!"])
 
     [<Fact>]
     member this.withSingleTailElementOnListOfLengthTwoReturnsCorrectState() =    
