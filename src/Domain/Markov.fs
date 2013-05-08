@@ -1,22 +1,32 @@
 ﻿namespace StudioDonder.SentenceGenerator.Domain
 
 open System
+open System.Collections.Generic
 
 module Markov =
 
     let private random = new Random()
 
-    type Element<'T> = 'T
-    type ElementChain<'T> = Element<'T> list    
-    type ElementWithCount<'T> = { Element: Element<'T>; Count: int }
-    type ElementWithProbability<'T> = { Element: Element<'T>; Probability: float }
-    type ElementWithCumulativeProbability<'T> = { Element: Element<'T>; CumulativeProbability: float }
+    type ElementChain<'T> = 'T list    
+    type ElementWithCount<'T> = { Element: 'T; Count: int }
+    type ElementWithProbability<'T> = { Element: 'T; Probability: float }
+    type ElementWithCumulativeProbability<'T> = { Element: 'T; CumulativeProbability: float }
 
-    type ChainLink<'T> = {Chain: ElementChain<'T>; Successors: ElementChain<'T> }
-    type ChainLinkWithCount<'T> = {Chain: ElementChain<'T>; SuccessorsWithCount: ElementWithCount<'T> list }
-    type ChainLinkWithProbabilities<'T> = {Chain: ElementChain<'T>; SuccessorsWithProbabilities: ElementWithProbability<'T> list }
-    type ChainLinkWithCumulativeProbabilities<'T> = {Chain: ElementChain<'T>; SuccessorsWithCumulativeProbabilities: ElementWithCumulativeProbability<'T> list }
+    type ChainLink<'T> = { Chain: ElementChain<'T>; Successors: ElementChain<'T> }
+    type ChainLinkWithCount<'T> = { Chain: ElementChain<'T>; SuccessorsWithCount: ElementWithCount<'T> list }
+    type ChainLinkWithProbabilities<'T> = { Chain: ElementChain<'T>; SuccessorsWithProbabilities: ElementWithProbability<'T> list }
+    type ChainLinkWithCumulativeProbabilities<'T> = { Chain: ElementChain<'T>; SuccessorsWithCumulativeProbabilities: ElementWithCumulativeProbability<'T> list }
     type Chain<'T> = ChainLinkWithProbabilities<'T> list
+
+    type ChainQueue<'T>(collection: 'T list) =
+        let queue = new Queue<'T>(collection);
+        
+        member val Size = collection.Length with get
+        member this.Items with get() = List.ofSeq queue        
+        
+        member q.Enqueue(item) = 
+            if queue.Count >= q.Size then queue.Dequeue() |> ignore
+            queue.Enqueue(item)
 
     let elementsWithCount list =
         list     
@@ -60,6 +70,19 @@ module Markov =
         |> createChainLinks chainSize     
         |> List.map (fun chainLink ->  { Chain = chainLink.Chain; SuccessorsWithCumulativeProbabilities = elementsWithCumulativeProbabilities chainLink.Successors })
 
-    let pickSuccessorBasedOnProbability (chainLink:ChainLinkWithCumulativeProbabilities<'T>) =
+    let pickSuccessorBasedOnProbability (successors: ElementWithCumulativeProbability<'T> list) =
         let probability = float (random.NextDouble())
-        List.find (fun successor -> probability <= successor.CumulativeProbability) chainLink.SuccessorsWithCumulativeProbabilities
+        List.find (fun successor -> probability <= successor.CumulativeProbability) successors
+
+    let createChain chainSize list first last =        
+        let chainLinks = createChainLinksWithCumulativeProbability chainSize list
+        let chainLinksAsDictionary = chainLinks |> List.map (fun chainLink -> chainLink.Chain, chainLink.SuccessorsWithCumulativeProbabilities) |> dict
+        let currentChainQueue = new ChainQueue<string>(first chainLinks)
+        let rec createChainHelper index =
+            if last currentChainQueue.Items index || not (chainLinksAsDictionary.ContainsKey(currentChainQueue.Items)) then
+                []
+            else
+                let successor = pickSuccessorBasedOnProbability chainLinksAsDictionary.[currentChainQueue.Items]
+                currentChainQueue.Enqueue successor.Element |> ignore
+                successor.Element :: createChainHelper (index + 1)
+        currentChainQueue.Items @ createChainHelper 1

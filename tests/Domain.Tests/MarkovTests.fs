@@ -216,7 +216,7 @@ type MarkovTests() =
     [<Fact>]
     member this.pickSuccessorBasedOnProbabilityWillPickSuccessorBasedOnProbability() =        
         let successors = [{ Element = "hello"; CumulativeProbability = 0.01 }; { Element = "there"; CumulativeProbability = 1.0 }]
-        let pickedSuccessorsCount = List.init 20 (fun _ -> pickSuccessorBasedOnProbability { Chain = ["there"; "hello"]; SuccessorsWithCumulativeProbabilities = successors }) 
+        let pickedSuccessorsCount = List.init 20 (fun _ -> pickSuccessorBasedOnProbability successors) 
                                     |> Seq.countBy (fun s -> s.Element)
         let pickedSuccessorsCount element = if Seq.exists (fun (x,_) -> x = element) pickedSuccessorsCount 
                                             then Seq.find (fun (x,_) -> x = element) pickedSuccessorsCount |> snd 
@@ -225,5 +225,24 @@ type MarkovTests() =
 
     [<Fact>]
     member this.pickSuccessorBasedOnProbabilityWithOnlyOneSuccessorWillPickThatSuccessor() =        
-        let successor = pickSuccessorBasedOnProbability { Chain = ["there"; "hello"]; SuccessorsWithCumulativeProbabilities = [{ Element = "there"; CumulativeProbability = 1.0 }] }
+        let successor = pickSuccessorBasedOnProbability [{ Element = "there"; CumulativeProbability = 1.0 }]
         Assert.Equal<ElementWithCumulativeProbability<string>>({ Element = "there"; CumulativeProbability = 1.0 }, successor)
+
+    [<Fact>]
+    member this.createChainReturnsChainLinksChosenFromSuccessors() =
+        let validPairs = set ["hello", "there"; "there", "hello"; "there", "!"; "!", ""]
+        let chain = createChain 1 ["hello"; "there"; "hello"; "there"; "!"] (fun _ -> ["hello"]) (fun element index -> index = 10)        
+        let chainPairs = set (List.mapi (fun i x -> if i = List.length chain - 1 then x, "" else x, List.nth chain (i + 1)) chain)
+        Assert.True(Set.isSubset chainPairs validPairs)
+
+    [<Fact>]
+    member this.createChainUsesFirstFunctionToDetermineWhereToStart() =        
+        let chainLength = 1
+        let chain = createChain 1 ["hello"; "there"; "hello"; "there"; "!"] (fun _ -> ["there"]) (fun _ index -> index = 10) 
+        Assert.Equal<string>("there", List.head chain)
+
+    [<Fact>]
+    member this.createChainUsesLastFunctionToDetermineWhenToStop() =        
+        let chainLength = 3
+        let chain = createChain 1 ["hello"; "there"; "hello"; "there"; "!"] (fun _ -> ["hello"]) (fun _ index -> index = chainLength) 
+        Assert.Equal<int>(chainLength, List.length chain)
