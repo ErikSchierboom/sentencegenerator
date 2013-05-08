@@ -2,6 +2,7 @@
 
 open System
 open System.Collections.Generic
+open Collections
 
 module Markov =
 
@@ -16,17 +17,7 @@ module Markov =
     type ChainLinkWithCount<'T> = { Chain: ElementChain<'T>; SuccessorsWithCount: ElementWithCount<'T> list }
     type ChainLinkWithProbabilities<'T> = { Chain: ElementChain<'T>; SuccessorsWithProbabilities: ElementWithProbability<'T> list }
     type ChainLinkWithCumulativeProbabilities<'T> = { Chain: ElementChain<'T>; SuccessorsWithCumulativeProbabilities: ElementWithCumulativeProbability<'T> list }
-    type Chain<'T> = ChainLinkWithProbabilities<'T> list
-
-    type ChainQueue<'T>(collection: 'T list) =
-        let queue = new Queue<'T>(collection);
-        
-        member val Size = collection.Length with get
-        member this.Items with get() = List.ofSeq queue        
-        
-        member q.Enqueue(item) = 
-            if queue.Count >= q.Size then queue.Dequeue() |> ignore
-            queue.Enqueue(item)
+    type Chain<'T> = ChainLinkWithProbabilities<'T> list    
 
     let elementsWithCount list =
         list     
@@ -77,7 +68,7 @@ module Markov =
     let createChain chainSize list first last =        
         let chainLinks = createChainLinksWithCumulativeProbability chainSize list
         let chainLinksAsDictionary = chainLinks |> List.map (fun chainLink -> chainLink.Chain, chainLink.SuccessorsWithCumulativeProbabilities) |> dict
-        let currentChainQueue = new ChainQueue<string>(first chainLinks)
+        let currentChainQueue = new FixedSizeQueue<string>(first chainLinks)
         let rec createChainHelper index =
             if last currentChainQueue.Items index || not (chainLinksAsDictionary.ContainsKey(currentChainQueue.Items)) then
                 []

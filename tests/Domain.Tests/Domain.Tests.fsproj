@@ -54,6 +54,7 @@
     <None Include="packages.config" />
     <Compile Include="RandomTests.fs" />
     <Compile Include="ListExtensionsTests.fs" />
+    <Compile Include="CollectionsTests.fs" />
     <Compile Include="WordTests.fs" />
     <Compile Include="ParserTests.fs" />
     <Compile Include="MarkovTests.fs" />
