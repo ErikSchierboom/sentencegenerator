@@ -65,10 +65,10 @@ module Markov =
         let probability = float (random.NextDouble())
         List.find (fun successor -> probability <= successor.CumulativeProbability) successors
 
-    let createChain chainSize list first last =        
+    let createChain<'T when 'T : equality> chainSize first last list =        
         let chainLinks = createChainLinksWithCumulativeProbability chainSize list
         let chainLinksAsDictionary = chainLinks |> List.map (fun chainLink -> chainLink.Chain, chainLink.SuccessorsWithCumulativeProbabilities) |> dict
-        let currentChainQueue = new FixedSizeQueue<string>(first chainLinks)
+        let currentChainQueue = new FixedSizeQueue<'T>(chainLinksAsDictionary.Keys |> List.ofSeq |> first)
         let rec createChainHelper index =
             if last currentChainQueue.Items index || not (chainLinksAsDictionary.ContainsKey(currentChainQueue.Items)) then
                 []

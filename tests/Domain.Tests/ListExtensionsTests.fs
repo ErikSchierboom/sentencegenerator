@@ -59,3 +59,23 @@ type ListExtensionsTests() =
     [<Fact>]
     member this.withSingleTailElementOnListWithListWithOneItemThrowsException() =  
         Assert.Throws<Exception>(fun() -> List.withSingleTailElement ["hello"] |> ignore)
+
+    [<Fact>]
+    member this.pairsOnEmptyListReturnsEmptyList() =
+        Assert.Equal<(string * string) list>([], List.pairs [])
+
+    [<Fact>]
+    member this.pairsOnListWithOneItemReturnsEmptyList() =
+        Assert.Equal<(string * string) list>([], List.pairs ["hello"])
+
+    [<Fact>]
+    member this.pairsOnListWithTwoItemsReturnsPairs() =
+        Assert.Equal<(string * string) list>(["hello", "there"], List.pairs ["hello"; "there"])
+
+    [<Fact>]
+    member this.pairsOnListWithEvenItemsReturnsPairs() =
+        Assert.Equal<(string * string) list>(["hello", "there"; "there", "world"; "world", "!"], List.pairs ["hello"; "there"; "world"; "!"])
+
+    [<Fact>]
+    member this.pairsOnListWithOddItemsReturnsPairs() =
+        Assert.Equal<(string * string) list>(["hello", "there"; "there", "world"], List.pairs ["hello"; "there"; "world"])

@@ -11,11 +11,11 @@ module Parser =
         let lastTextType = ref (None:Option<TextType>)
         characters
         |> Seq.groupBy (fun c ->
-                if Option.isSome !lastTextType && characterToTextType c = Option.get !lastTextType then
+                if Option.isSome !lastTextType && c.TextType = Option.get !lastTextType then
                     key
                 else
                     incr key
-                    lastTextType := Some(characterToTextType c)
+                    lastTextType := Some(c.TextType)
                     key)
         |> Seq.map (snd >> List.ofSeq)
         |> List.ofSeq

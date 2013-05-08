@@ -5,11 +5,11 @@ open System.Collections.Generic
 
 module Collections =
 
-    type FixedSizeQueue<'T>(collection: 'T list) =
+    type FixedSizeQueue<'T when 'T : equality>(collection: 'T list) =
         let queue = new Queue<'T>(collection);
         
         member val Size = collection.Length with get
-        member this.Items with get() = List.ofSeq queue        
+        member this.Items with get() = List.ofSeq queue : 'T list       
         
         member q.Enqueue(item) = 
             queue.Dequeue() |> ignore

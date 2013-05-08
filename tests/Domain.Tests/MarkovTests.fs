@@ -231,18 +231,16 @@ type MarkovTests() =
     [<Fact>]
     member this.createChainReturnsChainLinksChosenFromSuccessors() =
         let validPairs = set ["hello", "there"; "there", "hello"; "there", "!"; "!", ""]
-        let chain = createChain 1 ["hello"; "there"; "hello"; "there"; "!"] (fun _ -> ["hello"]) (fun element index -> index = 10)        
-        let chainPairs = set (List.mapi (fun i x -> if i = List.length chain - 1 then x, "" else x, List.nth chain (i + 1)) chain)
+        let chainPairs = createChain 1 (fun _ -> ["hello"]) (fun element index -> index = 10) ["hello"; "there"; "hello"; "there"; "!"] |> List.pairs |> set
         Assert.True(Set.isSubset chainPairs validPairs)
 
     [<Fact>]
     member this.createChainUsesFirstFunctionToDetermineWhereToStart() =        
-        let chainLength = 1
-        let chain = createChain 1 ["hello"; "there"; "hello"; "there"; "!"] (fun _ -> ["there"]) (fun _ index -> index = 10) 
+        let chain = createChain 1 (fun _ -> ["there"]) (fun _ index -> index = 10) ["hello"; "there"; "hello"; "there"; "!"]
         Assert.Equal<string>("there", List.head chain)
 
     [<Fact>]
     member this.createChainUsesLastFunctionToDetermineWhenToStop() =        
         let chainLength = 3
-        let chain = createChain 1 ["hello"; "there"; "hello"; "there"; "!"] (fun _ -> ["hello"]) (fun _ index -> index = chainLength) 
+        let chain = createChain 1 (fun _ -> ["hello"]) (fun _ index -> index = chainLength) ["hello"; "there"; "hello"; "there"; "!"]
         Assert.Equal<int>(chainLength, List.length chain)

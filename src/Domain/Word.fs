@@ -11,10 +11,32 @@ module Word =
         | PunctuationCharacter of char
         | SeparatorCharacter
 
+        override self.ToString() =
+            match self with
+            | NormalCharacter x | PunctuationCharacter x -> x.ToString()
+            | SeparatorCharacter -> " "
+
+        member self.TextType with get() =
+            match self with
+            | NormalCharacter _      -> Normal
+            | PunctuationCharacter _ -> Punctuation
+            | SeparatorCharacter     -> Separator   
+
     type Word = 
         | NormalWord of string        
         | PunctuationWord of string
         | SeparatorWord
+
+        override self.ToString() =
+            match self with
+            | NormalWord x | PunctuationWord x -> x
+            | SeparatorWord -> " "
+
+        member self.TextType with get() = 
+            match self with
+            | NormalWord _      -> Normal
+            | PunctuationWord _ -> Punctuation
+            | SeparatorWord     -> Separator   
 
     type Characters = Character list
     type Words = Word list
@@ -24,40 +46,17 @@ module Word =
 
     let isPunctuationCharacter (c:char) = Set.contains c punctuationCharacters
     let isSeparatorCharacter (c:char) = Set.contains c separatorCharacters
-
-    let characterToTextType (c:Character) =
-        match c with
-        | NormalCharacter _      -> Normal
-        | PunctuationCharacter _ -> Punctuation
-        | SeparatorCharacter     -> Separator   
-
-    let wordToTextType (word:Word) =
-        match word with
-        | NormalWord _      -> Normal
-        | PunctuationWord _ -> Punctuation
-        | SeparatorWord     -> Separator   
-
-    let characterToString (c:Character) =
-        match c with
-            | NormalCharacter x | PunctuationCharacter x -> x.ToString()
-            | SeparatorCharacter -> raise (new ArgumentException("Cannot retrieve character value for SeparatorCharacter"))
-
+        
     let charactersToWord (characters:Characters) =        
         match characters with       
         | [] -> raise (new ArgumentException("The characters list must not be empty."))
         | x::xs -> 
             match x with
-            | NormalCharacter _      -> NormalWord (String.Join("", List.map characterToString characters))
-            | PunctuationCharacter y -> PunctuationWord (characterToString x)
+            | NormalCharacter _      -> NormalWord (String.Join("", List.map (fun c -> c.ToString()) characters))
+            | PunctuationCharacter y -> PunctuationWord (x.ToString())
             | SeparatorCharacter     -> SeparatorWord
-
-    let wordToString (word:Word) = 
-        match word with
-        | NormalWord x      -> x
-        | PunctuationWord x -> x
-        | SeparatorWord     -> " "
-
-    let wordsToString (words:Words) = String.Join("", List.map wordToString words |> Array.ofList)
+            
+    let wordsToString (words:Words) = String.Join("", List.map (fun w -> w.ToString()) words)
     
         
     

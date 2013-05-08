@@ -23,3 +23,8 @@ let withSingleTailElement list =
     match List.length list with
     | length when length < 2 -> failwith "The list must have at least two items."
     | length -> take (length - 1) list, list.Item (length - 1)
+
+let pairs list =    
+    match List.length list with
+    | length when length < 2 -> []
+    | length -> List.init (length - 1) (fun i -> List.nth list i, List.nth list (i + 1))
