@@ -243,4 +243,4 @@ type MarkovTests() =
     member this.createChainUsesLastFunctionToDetermineWhenToStop() =        
         let chainLength = 3
         let chain = createChain 1 (fun _ -> ["hello"]) (fun _ index -> index = chainLength) ["hello"; "there"; "hello"; "there"; "!"]
-        Assert.Equal<int>(chainLength, List.length chain)
+        Assert.Equal<int>(chainLength, chain.Length)

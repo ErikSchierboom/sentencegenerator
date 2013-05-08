@@ -16,11 +16,10 @@ module Word =
             | NormalCharacter x | PunctuationCharacter x -> x.ToString()
             | SeparatorCharacter -> " "
 
-        member self.TextType with get() =
-            match self with
-            | NormalCharacter _      -> Normal
-            | PunctuationCharacter _ -> Punctuation
-            | SeparatorCharacter     -> Separator   
+        member self.TextType with get() = match self with
+                                          | NormalCharacter _      -> Normal
+                                          | PunctuationCharacter _ -> Punctuation
+                                          | SeparatorCharacter     -> Separator   
 
     type Word = 
         | NormalWord of string        
@@ -32,11 +31,10 @@ module Word =
             | NormalWord x | PunctuationWord x -> x
             | SeparatorWord -> " "
 
-        member self.TextType with get() = 
-            match self with
-            | NormalWord _      -> Normal
-            | PunctuationWord _ -> Punctuation
-            | SeparatorWord     -> Separator   
+        member self.TextType with get() = match self with
+                                          | NormalWord _      -> Normal
+                                          | PunctuationWord _ -> Punctuation
+                                          | SeparatorWord     -> Separator   
 
     type Characters = Character list
     type Words = Word list

@@ -35,6 +35,22 @@ type ListExtensionsTests() =
     [<InlineData(-1)>]
     member this.takeWithLengthIsInvalidThrowsException(chainSize) =  
         Assert.Throws<Exception>(fun() -> List.take chainSize ["hello"; "there"; "world"; "!"] |> ignore)
+        
+    [<Fact>]
+    member this.takeRandomWillReturnRandomElement() =
+        let list = ["hello"; "there"; "world"]
+        let randomElements = List.init 50 (fun _ -> List.takeRandom list) |> set
+        Assert.Equal<Set<string>>(set list, randomElements)
+
+    [<Fact>]
+    member this.takeRandomOnListWithOneElementReturnsThatElement() =
+        let list = ["hello"]
+        let randomElements = List.init 50 (fun _ -> List.takeRandom list) |> set
+        Assert.Equal<Set<string>>(set list, randomElements)
+
+    [<Fact>]
+    member this.takeRandomOnEmptyListThrowsException() =
+        Assert.Throws<Exception>(fun() -> List.takeRandom [] |> ignore)
 
     [<Fact>]
     member this.partitionByLengthWithLengthIsOneReturnsCorrectPartionedBlocks() =  
