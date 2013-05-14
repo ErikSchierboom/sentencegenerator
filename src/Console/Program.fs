@@ -1,10 +1,8 @@
-﻿namespace StudioDonder.SentenceGenerator.Console
+﻿module StudioDonder.SentenceGenerator.Console.Main
 
 open StudioDonder.SentenceGenerator.Domain.Parser
 open StudioDonder.SentenceGenerator.Domain.Markov
 open StudioDonder.SentenceGenerator.Domain.SentenceGenerator
-
-module Main = 
 
     [<EntryPoint>]
     let main argv = 

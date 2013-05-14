@@ -1,10 +1,8 @@
-﻿namespace StudioDonder.SentenceGenerator.Domain
+﻿module StudioDonder.SentenceGenerator.Domain.Markov
 
-open System
-open System.Collections.Generic
-open Collections
-
-module Markov =
+    open System
+    open System.Collections.Generic
+    open Collections
 
     let private random = new Random()
 

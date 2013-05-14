@@ -1,9 +1,7 @@
-﻿namespace StudioDonder.SentenceGenerator.Domain
+﻿module StudioDonder.SentenceGenerator.Domain.Collections
 
-open System
-open System.Collections.Generic
-
-module Collections =
+    open System
+    open System.Collections.Generic
 
     type FixedSizeQueue<'T when 'T : equality>(collection: 'T list) =
         let queue = new Queue<'T>(collection);

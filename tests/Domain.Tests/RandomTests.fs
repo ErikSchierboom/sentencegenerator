@@ -18,12 +18,12 @@ type RandomTests() =
         Assert.True(List.forall (fun p -> not p) probabilities)
 
     [<Fact>]  
-    member this.meetsProbabilityWithProbabilityIsLessThanZeroThrowsException() =
-        Assert.Throws<Exception>(fun() -> meetsProbability -0.1 |> ignore)
+    member this.meetsProbabilityWithProbabilityIsLessThanZeroThrowsArgumentException() =
+        Assert.Throws<ArgumentException>(fun() -> meetsProbability -0.1 |> ignore)
 
     [<Fact>]  
-    member this.meetsProbabilityWithProbabilityIsGreaterThanOneThrowsException() =
-        Assert.Throws<Exception>(fun() -> meetsProbability 1.1 |> ignore)
+    member this.meetsProbabilityWithProbabilityIsGreaterThanOneThrowsArgumentException() =
+        Assert.Throws<ArgumentException>(fun() -> meetsProbability 1.1 |> ignore)
 
     [<Fact>]  
     member this.doesNotMeetProbabilityWithProbabilityIsOneReturnsFalse() =
@@ -36,9 +36,9 @@ type RandomTests() =
         Assert.True(List.forall (fun p -> p) probabilities)
 
     [<Fact>]  
-    member this.doesNotMeetProbabilityWithProbabilityIsLessThanZeroThrowsException() =
-        Assert.Throws<Exception>(fun() -> doesNotMeetProbability -0.1 |> ignore)
+    member this.doesNotMeetProbabilityWithProbabilityIsLessThanZeroThrowsArgumentException() =
+        Assert.Throws<ArgumentException>(fun() -> doesNotMeetProbability -0.1 |> ignore)
 
     [<Fact>]  
-    member this.doesNotMeetProbabilityWithProbabilityIsGreaterThanOneThrowsException() =
-        Assert.Throws<Exception>(fun() -> doesNotMeetProbability 1.1 |> ignore)
+    member this.doesNotMeetProbabilityWithProbabilityIsGreaterThanOneThrowsArgumentException() =
+        Assert.Throws<ArgumentException>(fun() -> doesNotMeetProbability 1.1 |> ignore)

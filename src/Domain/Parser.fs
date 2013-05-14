@@ -1,10 +1,8 @@
-﻿namespace StudioDonder.SentenceGenerator.Domain
+﻿module StudioDonder.SentenceGenerator.Domain.Parser
 
-open System
-open System.IO
-open Word
-
-module Parser = 
+    open System
+    open System.IO
+    open Word
 
     let private groupCharacters (characters:Characters) =        
         let key = ref 0

@@ -59,8 +59,8 @@ type SentenceGeneratorTests() =
         Assert.Equal<Set<Word>>(validWords, foundWords)
 
     [<Fact>]
-    member this.findWordToStartWithOnEmptyListThrowsException() =
-        Assert.Throws<Exception>(fun () -> findWordToStartWith [] |> ignore)
+    member this.findWordToStartWithOnEmptyListThrowsArgumentException() =
+        Assert.Throws<ArgumentException>(fun () -> findWordToStartWith [] |> ignore)
 
     [<Fact>]
     member this.addSeparatorsToWordsOnEmptyListReturnsEmptyList() =

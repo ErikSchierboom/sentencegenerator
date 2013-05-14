@@ -81,8 +81,8 @@ type MarkovTests() =
     [<Theory>]
     [<InlineData(0)>]
     [<InlineData(-1)>]
-    member this.createChainLinksWithChainSizeIsInvalidThrowsException(chainSize) =  
-        Assert.Throws<Exception>(fun() -> createChainLinks chainSize ["hello"; "there"; "world"; "!"] |> ignore)
+    member this.createChainLinksWithChainSizeIsInvalidThrowsArgumentException(chainSize) =  
+        Assert.Throws<ArgumentException>(fun() -> createChainLinks chainSize ["hello"; "there"; "world"; "!"] |> ignore)
 
     [<Fact>]
     member this.createChainLinksWithCountWithChainSizeIsOneAndOnlyOneSuccessorPerChainReturnsCorrectChainLinks() =        

@@ -1,18 +1,16 @@
-﻿namespace StudioDonder.SentenceGenerator.Domain
+﻿module StudioDonder.SentenceGenerator.Domain.SentenceGenerator
 
 open Word
 open Parser
 open Markov
 open System
 
-module SentenceGenerator = 
-
     let numberOfSentences (words:Words) =         
         List.pairs words
         |> List.fold (fun acc (x, y) -> if x.TextType = Punctuation && y.TextType = Normal then acc + 1 else acc) 1
 
     let findWordToStartWith (words:Words) =         
-        if words.Length < 1 then failwith "The words parameter must not be empty."
+        if words.Length < 1 then invalidArg "words" "The words parameter must not be empty."
         List.pairs words 
         |> List.fold (fun acc (x, y) -> if x.TextType = Punctuation && y.TextType = Normal then acc @ [y] else acc) [List.head words]
         |> List.takeRandom

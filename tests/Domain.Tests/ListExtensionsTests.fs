@@ -11,8 +11,8 @@ type ListExtensionsTests() =
         Assert.Equal<string>("world", List.last ["hello"; "there"; "world"])               
 
     [<Fact>]
-    member this.lastOnEmptyListThrowsException() =  
-        Assert.Throws<Exception>(fun() -> List.last [] |> ignore)
+    member this.lastOnEmptyListThrowsArgumentException() =  
+        Assert.Throws<ArgumentException>(fun() -> List.last [] |> ignore)
 
     [<Fact>]
     member this.takeReturnsListOfSpecifiedSliceLength() =
@@ -33,8 +33,8 @@ type ListExtensionsTests() =
     [<Theory>]
     [<InlineData(0)>]
     [<InlineData(-1)>]
-    member this.takeWithLengthIsInvalidThrowsException(chainSize) =  
-        Assert.Throws<Exception>(fun() -> List.take chainSize ["hello"; "there"; "world"; "!"] |> ignore)
+    member this.takeWithLengthIsInvalidThrowsArgumentException(chainSize) =  
+        Assert.Throws<ArgumentException>(fun() -> List.take chainSize ["hello"; "there"; "world"; "!"] |> ignore)
         
     [<Fact>]
     member this.takeRandomWillReturnRandomElement() =
@@ -49,8 +49,8 @@ type ListExtensionsTests() =
         Assert.Equal<Set<string>>(set list, randomElements)
 
     [<Fact>]
-    member this.takeRandomOnEmptyListThrowsException() =
-        Assert.Throws<Exception>(fun() -> List.takeRandom [] |> ignore)
+    member this.takeRandomOnEmptyListThrowsArgumentException() =
+        Assert.Throws<ArgumentException>(fun() -> List.takeRandom [] |> ignore)
 
     [<Fact>]
     member this.partitionByLengthWithLengthIsOneReturnsCorrectPartionedBlocks() =  
@@ -69,12 +69,12 @@ type ListExtensionsTests() =
         Assert.Equal<string list * string>((["hello"; "there"], "world"), List.withSingleTailElement ["hello"; "there"; "world"])
 
     [<Fact>]
-    member this.withSingleTailElementOnEmptyListThrowsException() =  
-        Assert.Throws<Exception>(fun() -> List.withSingleTailElement [] |> ignore)
+    member this.withSingleTailElementOnEmptyListThrowsArgumentException() =  
+        Assert.Throws<ArgumentException>(fun() -> List.withSingleTailElement [] |> ignore)
 
     [<Fact>]
-    member this.withSingleTailElementOnListWithListWithOneItemThrowsException() =  
-        Assert.Throws<Exception>(fun() -> List.withSingleTailElement ["hello"] |> ignore)
+    member this.withSingleTailElementOnListWithListWithOneItemThrowsArgumentException() =  
+        Assert.Throws<ArgumentException>(fun() -> List.withSingleTailElement ["hello"] |> ignore)
 
     [<Fact>]
     member this.pairsOnEmptyListReturnsEmptyList() =

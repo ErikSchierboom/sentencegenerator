@@ -1,8 +1,6 @@
-﻿namespace StudioDonder.SentenceGenerator.Domain
+﻿module StudioDonder.SentenceGenerator.Domain.Word
 
-open System
-
-module Word =
+    open System
 
     type TextType = Normal | Punctuation | Separator
 
