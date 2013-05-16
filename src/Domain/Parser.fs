@@ -19,9 +19,10 @@
         |> List.ofSeq
 
     let parseCharacter (c: char) : Character =
-        if isPunctuationCharacter c then PunctuationCharacter c
-        elif isSeparatorCharacter c then SeparatorCharacter
-        else NormalCharacter c
+        match c with
+        | x when isPunctuationCharacter x -> PunctuationCharacter x
+        | x when isSeparatorCharacter x -> SeparatorCharacter
+        | x -> NormalCharacter x
 
     let parseCharacters (input:string) : Characters =
         input.ToCharArray()

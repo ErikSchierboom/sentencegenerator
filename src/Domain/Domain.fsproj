@@ -40,7 +40,8 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
     <Compile Include="Random.fs" />
-    <Compile Include="ListExtensions.fs" />
+    <Compile Include="Lists.fs" />
+    <Compile Include="Strings.fs" />
     <Compile Include="Collections.fs" />
     <Compile Include="Word.fs" />
     <Compile Include="Parser.fs" />

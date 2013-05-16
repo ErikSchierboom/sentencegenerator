@@ -1,9 +1,9 @@
 ﻿module StudioDonder.SentenceGenerator.Domain.SentenceGenerator
 
-open Word
-open Parser
-open Markov
-open System
+    open Word
+    open Parser
+    open Markov
+    open System
 
     let numberOfSentences (words:Words) =         
         List.pairs words

@@ -53,12 +53,13 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Compile Include="RandomTests.fs" />
-    <Compile Include="ListExtensionsTests.fs" />
+    <Compile Include="ListsTests.fs" />
     <Compile Include="CollectionsTests.fs" />
     <Compile Include="WordTests.fs" />
     <Compile Include="ParserTests.fs" />
     <Compile Include="MarkovTests.fs" />
     <Compile Include="SentenceGeneratorTests.fs" />
+    <Compile Include="StringsTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Domain\Domain.fsproj">

@@ -89,12 +89,32 @@ type WordTests() =
         Assert.Equal<string>("a", (NormalCharacter 'a').ToString())
 
     [<Fact>]
-    member this.yoStringOnPunctuationCharacterReturnSeparatorString() =         
+    member this.toStringOnPunctuationCharacterReturnSeparatorString() =         
         Assert.Equal<string>(".", (PunctuationCharacter '.').ToString())
 
     [<Fact>]
-    member this.yoStringOnSeparatorCharacterReturnsSpace() =         
+    member this.toStringOnSeparatorCharacterReturnsSpace() =         
         Assert.Equal<string>(" ", SeparatorCharacter.ToString())
+
+    [<Fact>]
+    member this.characterToStringOnNormalCharacterReturnSeparatorString() =         
+        Assert.Equal<string>("a", characterToString (NormalCharacter 'a'))
+
+    [<Fact>]
+    member this.characterToStringOnPunctuationCharacterReturnSeparatorString() =         
+        Assert.Equal<string>(".", characterToString (PunctuationCharacter '.'))
+
+    [<Fact>]
+    member this.characterToStringOnSeparatorCharacterReturnsSpace() =         
+        Assert.Equal<string>(" ", characterToString SeparatorCharacter)
+
+    [<Fact>]
+    member this.charactersToStringReturnsConcatenatedWords() =         
+        Assert.Equal<string>("hey", charactersToString [NormalCharacter 'h'; NormalCharacter 'e'; NormalCharacter 'y'])
+
+    [<Fact>]
+    member this.charactersToStringOnEmptyListReturnsEmptyString() =         
+        Assert.Equal<string>("", charactersToString [])
 
     [<Fact>]
     member this.charactersToWordOnNormalCharactersReturnsNormalWord() =         
@@ -127,6 +147,18 @@ type WordTests() =
     [<Fact>]
     member this.toStringOnNormalWordReturnsWord() =         
         Assert.Equal<string>("hey", (NormalWord "hey").ToString())
+
+    [<Fact>]
+    member this.wordToStringOnSeparatorWordReturnsSpace() =         
+        Assert.Equal<string>(" ", wordToString SeparatorWord)
+
+    [<Fact>]
+    member this.wordToStringOnPunctuationWordReturnsPunctuation() =         
+        Assert.Equal<string>(".", wordToString (PunctuationWord "."))
+
+    [<Fact>]
+    member this.wordToStringOnNormalWordReturnsWord() =         
+        Assert.Equal<string>("hey", wordToString (NormalWord "hey"))
 
     [<Fact>]
     member this.wordsToStringReturnsConcatenatedWords() =         
