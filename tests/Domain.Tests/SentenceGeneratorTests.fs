@@ -9,6 +9,54 @@ open Xunit.Extensions
 type SentenceGeneratorTests() = 
 
     [<Fact>]
+    member this.newSentenceOnPunctuationWordAndNormalWordPairReturnsTrue() =
+        Assert.True(newSentence (PunctuationWord "!", NormalWord "a"))
+
+    [<Fact>]
+    member this.newSentenceOnPunctuationWordAndPunctuationWordPairReturnsFalse() =
+        Assert.False(newSentence (PunctuationWord "!", PunctuationWord "!"))
+
+    [<Fact>]
+    member this.newSentenceOnPunctuationWordAndSeparatorWordPairReturnsFalse() =
+        Assert.False(newSentence (PunctuationWord "!", SeparatorWord))
+
+    [<Fact>]
+    member this.newSentenceOnSeparatorWordAndNormalWordPairReturnsFalse() =
+        Assert.False(newSentence (SeparatorWord, NormalWord "a"))
+
+    [<Fact>]
+    member this.newSentenceOnSeparatorWordAndPunctuationWordPairReturnsFalse() =
+        Assert.False(newSentence (SeparatorWord, PunctuationWord "!"))
+
+    [<Fact>]
+    member this.newSentenceOnSeparatorWordAndSeparatorWordPairReturnsFalse() =
+        Assert.False(newSentence (SeparatorWord, SeparatorWord))
+
+    [<Fact>]
+    member this.newSentenceOnNormalWordAndNormalWordPairReturnsFalse() =
+        Assert.False(newSentence (NormalWord "a", NormalWord "a"))
+
+    [<Fact>]
+    member this.newSentenceOnNormalWordAndPunctuationWordPairReturnsFalse() =
+        Assert.False(newSentence (NormalWord "a", PunctuationWord "!"))
+
+    [<Fact>]
+    member this.newSentenceOnNormalWordAndSeparatorWordPairReturnsFalse() =
+        Assert.False(newSentence (NormalWord "a", SeparatorWord))
+
+    [<Fact>]
+    member this.numberOfWordsOnEmptyListReturnsZero() =
+        Assert.Equal<int>(0, numberOfWords [])
+
+    [<Fact>]
+    member this.numberOfWordsReturnsNumberOfNormalWords() =
+        Assert.Equal<int>(2, numberOfWords [NormalWord "hello"; PunctuationWord "!"; SeparatorWord; PunctuationWord "?"; PunctuationWord ";"; NormalWord "there"])
+
+    [<Fact>]
+    member this.numberOfSentencesOnEmptyListReturnsZero() =
+        Assert.Equal<int>(0, numberOfSentences [])
+
+    [<Fact>]
     member this.numberOfSentencesOnWordsWithoutPunctuationCharacterReturnsOne() =
         Assert.Equal<int>(1, numberOfSentences [NormalWord "hello"; NormalWord "there"])
         
@@ -89,4 +137,4 @@ type SentenceGeneratorTests() =
 
     [<Fact>]
     member this.generateSentencesWillGenerateCorrectSentence() =
-        Assert.Equal<string>("hello there world! or not?",  generateSentences 1 "hello there world! or not?")
+        Assert.Equal<string>("hello there",  generateSentences 1 2 "hello there world! or not?")

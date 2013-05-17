@@ -3,17 +3,18 @@
     open System
     open System.IO
     open Word
+    open Strings
 
-    let private groupCharacters (characters:Characters) =        
+    let private groupCharacters (characters:Characters) =    
         let key = ref 0
         let lastTextType = ref (None:Option<TextType>)
         characters
         |> Seq.groupBy (fun c ->
-                if Option.isSome !lastTextType && c.TextType = Option.get !lastTextType then
+                if Option.isSome !lastTextType && characterToTextType c = Option.get !lastTextType then
                     key
                 else
                     incr key
-                    lastTextType := Some(c.TextType)
+                    lastTextType := Some(characterToTextType c)
                     key)
         |> Seq.map (snd >> List.ofSeq)
         |> List.ofSeq
@@ -25,15 +26,11 @@
         | x -> NormalCharacter x
 
     let parseCharacters (input:string) : Characters =
-        input.ToCharArray()
-        |> List.ofArray
+        input
+        |> toCharacterList
         |> List.map parseCharacter 
             
     let parseWords (input:string) : Words =
         parseCharacters input
         |> groupCharacters
         |> List.map charactersToWord
-
-    let parseFile (file:string) : Words =
-        File.ReadAllText(file) 
-        |> parseWords

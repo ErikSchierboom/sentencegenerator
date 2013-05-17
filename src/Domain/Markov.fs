@@ -67,11 +67,11 @@
         let chainLinks = createChainLinksWithCumulativeProbability chainSize list
         let chainLinksAsDictionary = chainLinks |> List.map (fun chainLink -> chainLink.Chain, chainLink.SuccessorsWithCumulativeProbabilities) |> dict
         let currentChainQueue = new FixedSizeQueue<'T>(chainLinksAsDictionary.Keys |> List.ofSeq |> first)
-        let rec createChainHelper index =
-            if last currentChainQueue.Items index || not (chainLinksAsDictionary.ContainsKey(currentChainQueue.Items)) then
-                []
+        let rec createChainRec elements index =
+            if last elements index || not (chainLinksAsDictionary.ContainsKey(currentChainQueue.Items)) then
+                elements
             else
                 let successor = pickSuccessorBasedOnProbability chainLinksAsDictionary.[currentChainQueue.Items]
                 currentChainQueue.Enqueue successor.Element |> ignore
-                successor.Element :: createChainHelper (index + 1)
-        currentChainQueue.Items @ createChainHelper 1
+                createChainRec (elements @ [successor.Element]) (index + 1)
+        createChainRec currentChainQueue.Items 1
