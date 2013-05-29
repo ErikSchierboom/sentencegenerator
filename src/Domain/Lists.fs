@@ -19,11 +19,13 @@
         | [] -> invalidArg "list" "The list must not be empty."
         | _  -> List.nth list (random.Next(list.Length))
 
-    let rec partitionByLength length (list:'T list)  =
-        match length with
-        | x when x < 1 -> invalidArg "length" "The length parameter must be greater than zero."
-        | x when x > List.length list -> []
-        | _ -> take length list :: partitionByLength length list.Tail
+    let partitionByLength length (list:'T list)  =        
+        let rec partitionByLengthAux length list partitions =
+            match length with
+            | x when x < 1 -> invalidArg "length" "The length parameter must be greater than zero."
+            | x when x > List.length list -> partitions
+            | _ -> partitionByLengthAux length (List.tail list) (partitions @ [take length list])
+        partitionByLengthAux length list []
 
     let withSingleTailElement (list:'T list) =    
         match List.length list with
