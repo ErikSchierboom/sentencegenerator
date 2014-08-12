@@ -1,6 +1,6 @@
-﻿namespace StudioDonder.SentenceGenerator.Domain.Tests
+﻿namespace SentenceGenerator.Domain.Tests
 
-open StudioDonder.SentenceGenerator.Domain.Random
+open SentenceGenerator.Domain.Random
 open System
 open Xunit
 open Xunit.Extensions

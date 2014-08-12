@@ -1,7 +1,7 @@
-﻿namespace StudioDonder.SentenceGenerator.Domain.Tests
+﻿namespace SentenceGenerator.Domain.Tests
 
-open StudioDonder.SentenceGenerator.Domain.Word
-open StudioDonder.SentenceGenerator.Domain.Parser
+open SentenceGenerator.Domain.Word
+open SentenceGenerator.Domain.Parser
 open Xunit
 open Xunit.Extensions
 

@@ -1,4 +1,4 @@
-﻿module StudioDonder.SentenceGenerator.Domain.Strings
+﻿module SentenceGenerator.Domain.Strings
 
     open System
 

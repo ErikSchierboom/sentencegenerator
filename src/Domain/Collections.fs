@@ -1,4 +1,4 @@
-﻿module StudioDonder.SentenceGenerator.Domain.Collections
+﻿module SentenceGenerator.Domain.Collections
 
     open System
     open System.Collections.Generic

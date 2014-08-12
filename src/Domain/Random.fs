@@ -1,4 +1,4 @@
-﻿module StudioDonder.SentenceGenerator.Domain.Random
+﻿module SentenceGenerator.Domain.Random
 
     open System
 

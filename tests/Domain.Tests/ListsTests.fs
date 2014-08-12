@@ -1,4 +1,4 @@
-﻿namespace StudioDonder.SentenceGenerator.Domain.Tests
+﻿namespace SentenceGenerator.Domain.Tests
 
 open System
 open Xunit

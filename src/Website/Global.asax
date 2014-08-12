@@ -1,4 +1,4 @@
-﻿<%@ Application Inherits="StudioDonder.SentenceGenerator.Website.Global" Language="C#" %>
+﻿<%@ Application Inherits="SentenceGenerator.Website.Global" Language="C#" %>
 <script Language="C#" RunAt="server">
 
   protected void Application_Start(Object sender, EventArgs e) {

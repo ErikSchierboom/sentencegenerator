@@ -1,4 +1,4 @@
-﻿namespace StudioDonder.SentenceGenerator.Website
+﻿namespace SentenceGenerator.Website
 
 open System
 open System.Web

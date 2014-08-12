@@ -1,8 +1,8 @@
-﻿module StudioDonder.SentenceGenerator.Console.Main
+﻿module SentenceGenerator.Console.Main
 
-    open StudioDonder.SentenceGenerator.Domain.Parser
-    open StudioDonder.SentenceGenerator.Domain.Markov
-    open StudioDonder.SentenceGenerator.Domain.SentenceGenerator
+    open SentenceGenerator.Domain.Parser
+    open SentenceGenerator.Domain.Markov
+    open SentenceGenerator.Domain.SentenceGenerator
 
     open System.IO;
 

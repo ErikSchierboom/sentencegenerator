@@ -1,4 +1,4 @@
-﻿module StudioDonder.SentenceGenerator.Domain.Markov
+﻿module SentenceGenerator.Domain.Markov
 
     open System
     open System.Collections.Generic

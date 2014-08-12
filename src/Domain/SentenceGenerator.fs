@@ -1,4 +1,4 @@
-﻿module StudioDonder.SentenceGenerator.Domain.SentenceGenerator
+﻿module SentenceGenerator.Domain.SentenceGenerator
 
     open Word
     open Parser
